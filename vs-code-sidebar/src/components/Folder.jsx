@@ -1,11 +1,18 @@
 import { useState } from "react";
 
-const Folder = ({ handleInsertNode, explorer }) => {
+const Folder = ({
+  handleUpdateNode,
+  handleDeleteNode,
+  handleInsertNode,
+  explorer,
+}) => {
   const [expand, setExpand] = useState(false);
   const [showInput, setShowinput] = useState({
     visibility: false,
     isFolder: null,
   });
+  const [isEditing, setIsEditing] = useState(false);
+  const [newName, setNewName] = useState(explorer.name);
 
   const handleFolderClick = (e, isFolder) => {
     e.stopPropagation();
@@ -24,15 +31,45 @@ const Folder = ({ handleInsertNode, explorer }) => {
     }
   };
 
+  const onDelete = (e) => {
+    e.stopPropagation();
+    handleDeleteNode(explorer.id);
+  };
+
+  const onEdit = (e) => {
+    e.stopPropagation();
+    setIsEditing(true);
+  };
+
+  const onUpdate = (e) => {
+    if (e.keyCode === 13 && newName.trim()) {
+      handleUpdateNode(explorer.id, newName);
+      setIsEditing(false);
+    }
+  };
+
   if (explorer.isFolder) {
     return (
       <div style={{ marginTop: 5 }}>
         <div className="folder" onClick={() => setExpand(!expand)}>
-          <span>📂{explorer.name}</span>
+          {isEditing ? (
+            <input
+              type="text"
+              value={newName}
+              onChange={(e) => setNewName(e.target.value)}
+              onKeyDown={onUpdate}
+              onBlur={() => setIsEditing(false)}
+              autoFocus
+            />
+          ) : (
+            <span>📂{explorer.name}</span>
+          )}
 
           <div>
             <button onClick={(e) => handleFolderClick(e, true)}>Folder+</button>
             <button onClick={(e) => handleFolderClick(e, false)}>File+</button>
+            <button onClick={onDelete}>❌</button>
+            <button onClick={onEdit}>✏️</button>
           </div>
         </div>
 
@@ -53,7 +90,9 @@ const Folder = ({ handleInsertNode, explorer }) => {
           {explorer.items.map((item) => {
             return (
               <Folder
+                handleDeleteNode={handleDeleteNode}
                 handleInsertNode={handleInsertNode}
+                handleUpdateNode={handleUpdateNode}
                 explorer={item}
                 key={item.id}
               />
@@ -63,7 +102,24 @@ const Folder = ({ handleInsertNode, explorer }) => {
       </div>
     );
   } else {
-    return <span className="file">📄{explorer.name}</span>;
+    return (
+      <div style={{ display: "flex", alignItems: "end" }}>
+        {isEditing ? (
+          <input
+            type="text"
+            value={newName}
+            onChange={(e) => setNewName(e.target.value)}
+            onKeyDown={onUpdate}
+            onBlur={() => setIsEditing(false)}
+            autoFocus
+          />
+        ) : (
+          <span>📄{explorer.name}</span>
+        )}
+        <span onClick={onDelete}>❌</span>
+        <span onClick={onEdit}>✏️</span>
+      </div>
+    );
   }
 };
 
