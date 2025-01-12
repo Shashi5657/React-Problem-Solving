@@ -9,6 +9,71 @@
   const employeeList = document.querySelector(".employees__names--list");
   const employeeInfo = document.querySelector(".employees__names--info");
 
+  // Add Employee Modal and Form Elements
+  const addEmployeeButton = document.querySelector(".createEmployee");
+  const addEmployeeModal = document.createElement("div");
+  const addEmployeeForm = document.createElement("form");
+
+  // Add Employee Modal HTML
+  addEmployeeModal.classList.add("addEmployee");
+  addEmployeeModal.style.display = "none";
+  addEmployeeModal.innerHTML = `
+      <div class="addEmployee__container">
+        <h2>Add Employee</h2>
+        <form class="addEmployee_form">
+          <label>First Name: <input type="text" name="firstName" required /></label>
+          <label>Last Name: <input type="text" name="lastName" required /></label>
+          <label>Email: <input type="email" name="email" required /></label>
+          <label>Contact Number: <input type="text" name="contactNumber" required /></label>
+          <label>Date of Birth: <input type="date" name="dob" required /></label>
+          <label>Address: <input type="text" name="address" required /></label>
+          <label>Salary: <input type="number" name="salary" required /></label>
+          <label>Profile Image URL: <input type="url" name="imageUrl" /></label>
+          <button type="submit">Add</button>
+          <button type="button" class="closeModal">Cancel</button>
+        </form>
+      </div>
+    `;
+
+  document.body.appendChild(addEmployeeModal);
+
+  // Show Add Employee Modal
+  addEmployeeButton.addEventListener("click", () => {
+    addEmployeeModal.style.display = "flex";
+  });
+
+  // Hide Add Employee Modal
+  addEmployeeModal.addEventListener("click", (e) => {
+    if (
+      e.target.classList.contains("addEmployee") ||
+      e.target.classList.contains("closeModal")
+    ) {
+      addEmployeeModal.style.display = "none";
+    }
+  });
+
+  // Add Employee Form Submission
+  addEmployeeModal.querySelector("form").addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const newEmployee = Object.fromEntries(formData.entries());
+
+    // Calculate age from DOB
+    const dob = new Date(newEmployee.dob);
+    const age = new Date().getFullYear() - dob.getFullYear();
+
+    newEmployee.id = employees[employees.length - 1]?.id + 1 || 1001;
+    newEmployee.age = age;
+    newEmployee.imageUrl =
+      newEmployee.imageUrl || "https://cdn-icons-png.flaticon.com/512/0/93.png";
+
+    employees.push(newEmployee);
+    renderEmployees();
+    addEmployeeModal.style.display = "none";
+    e.target.reset();
+  });
+
   employeeList.addEventListener("click", (e) => {
     if (
       e.target.tagName === "SPAN" &&
@@ -51,15 +116,15 @@
       return;
     }
     employeeInfo.innerHTML = `
-        <img src="${selectedEmployee.imageUrl}" alt="${selectedEmployee.firstName}" />
-        <span class="employees__single--heading">
-          ${selectedEmployee.firstName} ${selectedEmployee.lastName} (${selectedEmployee.age})
-        </span>
-        <span>${selectedEmployee.address}</span>
-        <span>${selectedEmployee.email}</span>
-        <span>Mobile - ${selectedEmployee.contactNumber}</span>
-        <span>DOB - ${selectedEmployee.dob}</span>
-      `;
+          <img src="${selectedEmployee.imageUrl}" alt="${selectedEmployee.firstName}" />
+          <span class="employees__single--heading">
+            ${selectedEmployee.firstName} ${selectedEmployee.lastName} (${selectedEmployee.age})
+          </span>
+          <span>${selectedEmployee.address}</span>
+          <span>${selectedEmployee.email}</span>
+          <span>Mobile - ${selectedEmployee.contactNumber}</span>
+          <span>DOB - ${selectedEmployee.dob}</span>
+        `;
   };
 
   renderEmployees();

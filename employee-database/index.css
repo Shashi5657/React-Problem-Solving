@@ -1,149 +1,188 @@
-/* Initial Structural CSS - START */
-:root {
-  --btn: #dbdbdb;
-  --btn-hover: #cacaca;
-  --item-bg: #f0f0f0;
-  --modal-bg: rgba(141, 141, 141, 0.541);
+/* General Reset */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
 }
-body {
-  font-family: sans-serif;
-  padding: 0 10px;
-}
+
+/* Header Styling */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 20px;
+  background-color: #4caf50;
+  color: white;
 }
-.header > button {
+
+.header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.header .createEmployee {
+  background-color: white;
+  color: #4caf50;
+  border: 1px solid #4caf50;
   padding: 10px 15px;
-  border-radius: 20px;
-  border: none;
-  background-color: var(--btn);
+  border-radius: 5px;
   cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s, color 0.3s;
 }
-.header > button:hover {
-  background-color: var(--btn-hover);
+
+.header .createEmployee:hover {
+  background-color: #4caf50;
+  color: white;
 }
+
+/* Employees Section */
 .employees {
   display: flex;
+  gap: 20px;
+  padding: 20px;
 }
-.employees > div {
-  border: 1px solid black;
-  overflow-y: scroll;
-  height: 450px;
-}
-.employees__names {
-  width: 30%;
-}
-.employees__single {
-  width: 70%;
-}
-.employees__names,
-.employees__single {
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-}
-.employees__names--title,
-.employees__single--title {
-  padding-bottom: 10px;
-  margin-bottom: 5px;
-  text-align: center;
-  border-bottom: 1px solid black;
-}
-/* Initial Structural CSS - END */
 
-/* Render all Employees - START */
+/* Employee List Section */
+.employees__names {
+  flex: 1;
+  border-right: 1px solid #ccc;
+  padding-right: 20px;
+}
+
+.employees__names--title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
 .employees__names--list {
   display: flex;
   flex-direction: column;
+  gap: 10px;
 }
-.employees__names--item {
-  cursor: pointer;
-  padding: 10px 15px;
-  margin-bottom: 5px;
-  text-align: center;
-  background-color: var(--item-bg);
-  border-radius: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.employees__names--item:hover,
-.selected {
-  background-color: var(--btn);
-}
-/* Render all Employees - END */
 
-/* Render Single Employee - START */
-.employees__single--heading {
-  text-align: center;
-  font-size: 25px;
-  text-transform: uppercase;
-  padding: 5px;
+.employees__names--item {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
 }
-.employees__single--info {
+
+.employees__names--item:hover {
+  background-color: #f0f0f0;
+}
+
+.employees__names--item.selected {
+  background-color: #4caf50;
+  color: white;
+}
+
+.employees__names--item .employeeDelete {
+  margin-left: 10px;
+  color: red;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+/* Single Employee Info Section */
+.employees__single {
+  flex: 2;
+}
+
+.employees__single--title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.employees__names--info {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
-.employees__single--info > img {
-  width: 250px;
-  height: 250px;
-  object-fit: contain;
-  border-radius: 50%;
-}
-/* Render Single Employee - END */
 
-/* Add Employee - START */
+.employees__names--info img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.employees__single--heading {
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* General Styling for Employee Details */
+.employees__names--info span {
+  font-size: 0.9rem;
+  text-align: center;
+  color: #555;
+}
+
 .addEmployee {
-  display: none;
-  width: 100%;
-  height: 100%;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--modal-bg);
-}
-.addEmployee_create {
-  width: 400px;
-  background-color: white;
-  box-shadow: 0 0 50px grey;
-  padding: 20px;
-  border-radius: 5px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-.addEmployee_create > div {
-  display: grid;
-  grid-template-columns: 48.1% 48.1%;
-  column-gap: 15px;
-}
-.addEmployee_create input {
-  padding: 5px 10px;
-  border-radius: 5px;
-  border: 1px solid rgb(236, 236, 236);
+  z-index: 1000;
 }
 
-/* removes arrows from input type='number' */
-.addEmployee_create input::-webkit-outer-spin-button,
-.addEmployee_create input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+.addEmployee__container {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 350px;
+  max-height: 80%; /* Restrict maximum height */
+  overflow-y: auto; /* Add scroll if content overflows */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-.addEmployee_create--submit {
-  padding: 10px !important;
+
+.addEmployee__container h2 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.addEmployee_form label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}
+
+.addEmployee_form input {
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
   border-radius: 5px;
+}
+
+.addEmployee_form button {
+  margin-top: 10px;
+  padding: 10px;
   border: none;
-  background-color: var(--btn);
+  background-color: #4caf50;
+  color: white;
   cursor: pointer;
+  border-radius: 5px;
 }
-.addEmployee_create--submit:hover {
-  background-color: var(--btn-hover);
+
+.addEmployee_form button.closeModal {
+  background-color: red;
 }
-/* Add Employee - END */
