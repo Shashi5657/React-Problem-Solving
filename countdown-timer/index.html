@@ -22,12 +22,32 @@
         type="number"
         oninput="this.value = this.value.slice(0, this.maxLength)"
         maxlength="2"
-        class="container__inputs--tinme"
+        class="container__inputs--time hour"
+        placeholder="00"
+      />
+      <p class="container__inputs--colon">:</p>
+      <input
+        type="number"
+        oninput="this.value = this.value.slice(0, this.maxLength)"
+        maxlength="2"
+        class="container__inputs--time minute"
+        placeholder="00"
+      />
+      <p class="container__inputs--colon">:</p>
+      <input
+        type="number"
+        oninput="this.value = this.value.slice(0, this.maxLength)"
+        maxlength="2"
+        class="container__inputs--time sec"
         placeholder="00"
       />
     </div>
 
-    <div class="container__inputs"></div>
+    <div class="container__btns">
+      <button class="btn start">Start</button>
+      <button class="btn stop">Pause</button>
+      <button class="btn reset">Reset</button>
+    </div>
     <script src="./styles.css"></script>
   </body>
 </html>
