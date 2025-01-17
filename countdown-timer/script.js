@@ -24,9 +24,23 @@
     startInterval();
   });
 
-  function stopInterval() {}
+  function stopInterval(state) {
+    startBtn.innerHTML = state === "pause" ? "Continue" : "Start";
+
+    startBtn.style.display = "initial";
+    stopBtn.style.display = "none";
+    clearInterval(countdownTimer);
+  }
 
   function timer() {
+    if (sec.value > 60) {
+      min.value++;
+      sec.value = parseInt(sec.value) - 59;
+    }
+    if (min.value > 60) {
+      hour.value++;
+      min.value = parseInt(min.value) - 60;
+    }
     if (hour.value == 0 && min.value == 0 && sec.value == 0) {
       hour.value = "";
       min.value = "";
@@ -42,4 +56,16 @@
       hour.value = `${hour.value <= 10 ? "0" : ""}${hour.value - 1}`;
     }
   }
+
+  stopBtn.addEventListener("click", function () {
+    stopInterval("pause");
+  });
+
+  resetBtn.addEventListener("click", function () {
+    hour.value = "";
+    min.value = "";
+    sec.value = "";
+
+    stopInterval();
+  });
 })();
