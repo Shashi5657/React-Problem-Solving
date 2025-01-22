@@ -1,11 +1,8 @@
 import "./App.css";
+import MemoryGame from "./components/memoryGame";
 
 function App() {
-  return (
-    <div>
-      <h1>Hii people</h1>
-    </div>
-  );
+  return <MemoryGame />;
 }
 
 export default App;
