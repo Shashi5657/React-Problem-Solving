@@ -20,15 +20,20 @@ const MemoryGame = () => {
     const shuffledCards = [...numbers, ...numbers]
       .sort(() => Math.random() - 0.5)
       .slice(0, totalCards)
-      .map((number, index) => {
-        id: index, number;
-      });
-    console.log(shuffledCards, "num");
+      .map((number, index) => ({
+        id: index,
+        number,
+      }));
+    setCards(shuffledCards);
+    setFlippled([]);
+    setSolved([]);
+    setWon(false);
   };
   useEffect(() => {
     initializeGame();
   }, [gridSize]);
 
+  console.log(cards);
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
       <h1 className="text-3xl font-bold mb-6">Memory Game</h1>
@@ -46,6 +51,15 @@ const MemoryGame = () => {
           onChange={handleGridSizeChange}
           className="border-2 border-gray-300 rounded px-2 py-1"
         />
+      </div>
+
+      <div
+        className="grid gap-2 mb-4"
+        style={{ gridTemplateColumns: `repeat(${gridSize}, minmax(0,1fr))` }}
+      >
+        {cards.map((card) => (
+          <div key={card.id}>{card.number}</div>
+        ))}
       </div>
     </div>
   );
