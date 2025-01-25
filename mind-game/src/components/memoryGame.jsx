@@ -33,7 +33,17 @@ const MemoryGame = () => {
     initializeGame();
   }, [gridSize]);
 
-  console.log(cards);
+  const handleClick = (id) => {
+    if (disabled || won) return;
+
+    if (flipped.length === 0) {
+      setFlippled([id]);
+      return;
+    }
+  };
+
+  const isFlipped = (id) => flipped.includes(id);
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
       <h1 className="text-3xl font-bold mb-6">Memory Game</h1>
@@ -55,10 +65,23 @@ const MemoryGame = () => {
 
       <div
         className="grid gap-2 mb-4"
-        style={{ gridTemplateColumns: `repeat(${gridSize}, minmax(0,1fr))` }}
+        style={{
+          gridTemplateColumns: `repeat(${gridSize}, minmax(0,1fr))`,
+          width: `min(100%, ${gridSize * 5.5}rem)`,
+        }}
       >
         {cards.map((card) => (
-          <div key={card.id}>{card.number}</div>
+          <div
+            onClick={() => handleClick(card.id)}
+            className={`aspect-square flex items-center justify-center text-xl font-bold rounded-lg cursor-pointer transition-all duration-300  ${
+              isFlipped(card.id)
+                ? "bg-blue-500 text-white"
+                : "bg-gray-300 text-gray-400"
+            }`}
+            key={card.id}
+          >
+            {isFlipped(card.id) ? card.number : "?"}
+          </div>
         ))}
       </div>
     </div>
