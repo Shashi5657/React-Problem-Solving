@@ -33,6 +33,21 @@ const MemoryGame = () => {
     initializeGame();
   }, [gridSize]);
 
+  const checkMatch = (secondId) => {
+    const [firstId] = flipped;
+
+    if (cards[firstId].number === cards[secondId].number) {
+      setSolved([...solved, firstId, secondId]);
+      setFlippled([]);
+      setDisabled(false);
+    } else {
+      setTimeout(() => {
+        setFlippled([]);
+        setDisabled(false);
+      }, 1000);
+    }
+  };
+
   const handleClick = (id) => {
     if (disabled || won) return;
 
@@ -40,9 +55,21 @@ const MemoryGame = () => {
       setFlippled([id]);
       return;
     }
+
+    if (flipped.length === 1) {
+      setDisabled(true);
+      if (id !== flipped[0]) {
+        setFlippled([...flipped, id]);
+        checkMatch(id);
+      } else {
+        setFlippled([]);
+        setDisabled(false);
+      }
+    }
   };
 
-  const isFlipped = (id) => flipped.includes(id);
+  const isFlipped = (id) => flipped.includes(id) || solved.includes(id);
+  const isSolved = (id) => solved.includes(id);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
@@ -75,7 +102,9 @@ const MemoryGame = () => {
             onClick={() => handleClick(card.id)}
             className={`aspect-square flex items-center justify-center text-xl font-bold rounded-lg cursor-pointer transition-all duration-300  ${
               isFlipped(card.id)
-                ? "bg-blue-500 text-white"
+                ? isSolved(card.id)
+                  ? "bg-green-500 text-white"
+                  : "bg-blue-500 text-white"
                 : "bg-gray-300 text-gray-400"
             }`}
             key={card.id}
