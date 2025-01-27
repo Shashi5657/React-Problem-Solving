@@ -33,6 +33,12 @@ const MemoryGame = () => {
     initializeGame();
   }, [gridSize]);
 
+  useEffect(() => {
+    if (solved.length === cards.length && cards.length > 0) {
+      setWon(true);
+    }
+  }, [solved, cards]);
+
   const checkMatch = (secondId) => {
     const [firstId] = flipped;
 
@@ -113,6 +119,21 @@ const MemoryGame = () => {
           </div>
         ))}
       </div>
+
+      <div>
+        {won && (
+          <div className="mt-4 text-4xl font-bold text-green-500 animate-bounce">
+            You Won!!!
+          </div>
+        )}
+      </div>
+
+      <button
+        onClick={initializeGame}
+        className="mt-4 px-4 py-2 bg-green-500  text-white rounded hover:bg-green-600 transition-colors cursor-pointer"
+      >
+        {won ? "Play Again" : "Reset"}
+      </button>
     </div>
   );
 };
