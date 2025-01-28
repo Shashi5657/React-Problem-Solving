@@ -7,10 +7,18 @@ const MemoryGame = () => {
   const [solved, setSolved] = useState([]);
   const [won, setWon] = useState(false);
   const [disabled, setDisabled] = useState(false);
+  const [moves, setMoves] = useState(0);
+  const [minMoves, setMinMoves] = useState(10);
+  const [gameOver, setGameOver] = useState(false);
 
   const handleGridSizeChange = (e) => {
     const size = parseInt(e.target.value);
     if (size >= 2 && size <= 10) setGridSize(size);
+  };
+
+  const handleMinMovesChange = (e) => {
+    const min = parseInt(e.target.value);
+    if (min > 0) setMinMoves(min);
   };
 
   const initializeGame = () => {
@@ -28,6 +36,8 @@ const MemoryGame = () => {
     setFlippled([]);
     setSolved([]);
     setWon(false);
+    setMoves(0);
+    setGameOver(false);
   };
   useEffect(() => {
     initializeGame();
@@ -35,9 +45,13 @@ const MemoryGame = () => {
 
   useEffect(() => {
     if (solved.length === cards.length && cards.length > 0) {
-      setWon(true);
+      if (moves < minMoves) {
+        setWon(true);
+      } else {
+        setGameOver(true);
+      }
     }
-  }, [solved, cards]);
+  }, [solved, cards, moves, minMoves]);
 
   const checkMatch = (secondId) => {
     const [firstId] = flipped;
@@ -55,7 +69,7 @@ const MemoryGame = () => {
   };
 
   const handleClick = (id) => {
-    if (disabled || won) return;
+    if (disabled || won || gameOver) return;
 
     if (flipped.length === 0) {
       setFlippled([id]);
@@ -66,6 +80,7 @@ const MemoryGame = () => {
       setDisabled(true);
       if (id !== flipped[0]) {
         setFlippled([...flipped, id]);
+        setMoves((prev) => prev + 1);
         checkMatch(id);
       } else {
         setFlippled([]);
@@ -83,7 +98,7 @@ const MemoryGame = () => {
 
       <div className="mb-4">
         <label htmlFor="gridSize" className="mr-2">
-          Grid Size
+          Grid Size:
         </label>
         <input
           id="gridSize"
@@ -94,6 +109,22 @@ const MemoryGame = () => {
           onChange={handleGridSizeChange}
           className="border-2 border-gray-300 rounded px-2 py-1"
         />
+
+        <label htmlFor="minMoves" className="mr-2">
+          Min Moves:{" "}
+        </label>
+        <input
+          type="number"
+          id="minMoves"
+          min="1"
+          value={minMoves}
+          onChange={handleMinMovesChange}
+          className="border-2 border-gray-300 rounded px-2 py-1"
+        />
+      </div>
+
+      <div className="mb-2 text-lg font-semibold">
+        Moves : {moves}/{minMoves}
       </div>
 
       <div
@@ -120,13 +151,17 @@ const MemoryGame = () => {
         ))}
       </div>
 
-      <div>
-        {won && (
-          <div className="mt-4 text-4xl font-bold text-green-500 animate-bounce">
-            You Won!!!
-          </div>
-        )}
-      </div>
+      {won && (
+        <div className="mt-4 text-4xl font-bold text-green-500 animate-bounce">
+          You Won!!!
+        </div>
+      )}
+
+      {gameOver && (
+        <div className="mt-4 text-4xl font-bold text-red-500">
+          Game Over! Exceeded {minMoves} moves.
+        </div>
+      )}
 
       <button
         onClick={initializeGame}
