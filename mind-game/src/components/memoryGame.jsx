@@ -32,6 +32,7 @@ const MemoryGame = () => {
         id: index,
         number,
       }));
+
     setCards(shuffledCards);
     setFlippled([]);
     setSolved([]);
@@ -39,17 +40,24 @@ const MemoryGame = () => {
     setMoves(0);
     setGameOver(false);
   };
+
   useEffect(() => {
     initializeGame();
   }, [gridSize]);
 
   useEffect(() => {
-    if (solved.length === cards.length && cards.length > 0) {
-      if (moves < minMoves) {
-        setWon(true);
-      } else {
-        setGameOver(true);
-      }
+    if (moves > minMoves) {
+      setGameOver(true);
+    }
+  }, [moves, minMoves]);
+
+  useEffect(() => {
+    if (
+      solved.length === cards.length &&
+      cards.length > 0 &&
+      moves <= minMoves
+    ) {
+      setWon(true);
     }
   }, [solved, cards, moves, minMoves]);
 
@@ -80,7 +88,12 @@ const MemoryGame = () => {
       setDisabled(true);
       if (id !== flipped[0]) {
         setFlippled([...flipped, id]);
-        setMoves((prev) => prev + 1);
+        setMoves((prev) => {
+          const newMove = prev + 1;
+          if (newMove > minMoves) setGameOver(true);
+          return newMove;
+        });
+
         checkMatch(id);
       } else {
         setFlippled([]);
@@ -107,15 +120,15 @@ const MemoryGame = () => {
           max="10"
           value={gridSize}
           onChange={handleGridSizeChange}
-          className="border-2 border-gray-300 rounded px-2 py-1"
+          className="border-2 border-gray-300 rounded px-2 py-1 mr-4"
         />
 
         <label htmlFor="minMoves" className="mr-2">
-          Min Moves:{" "}
+          Min Moves:
         </label>
         <input
-          type="number"
           id="minMoves"
+          type="number"
           min="1"
           value={minMoves}
           onChange={handleMinMovesChange}
@@ -124,7 +137,7 @@ const MemoryGame = () => {
       </div>
 
       <div className="mb-2 text-lg font-semibold">
-        Moves : {moves}/{minMoves}
+        Moves: {moves} / {minMoves}
       </div>
 
       <div
@@ -137,7 +150,7 @@ const MemoryGame = () => {
         {cards.map((card) => (
           <div
             onClick={() => handleClick(card.id)}
-            className={`aspect-square flex items-center justify-center text-xl font-bold rounded-lg cursor-pointer transition-all duration-300  ${
+            className={`aspect-square flex items-center justify-center text-xl font-bold rounded-lg cursor-pointer transition-all duration-300 ${
               isFlipped(card.id)
                 ? isSolved(card.id)
                   ? "bg-green-500 text-white"
@@ -165,9 +178,9 @@ const MemoryGame = () => {
 
       <button
         onClick={initializeGame}
-        className="mt-4 px-4 py-2 bg-green-500  text-white rounded hover:bg-green-600 transition-colors cursor-pointer"
+        className="mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors cursor-pointer"
       >
-        {won ? "Play Again" : "Reset"}
+        {won || gameOver ? "Play Again" : "Reset"}
       </button>
     </div>
   );
