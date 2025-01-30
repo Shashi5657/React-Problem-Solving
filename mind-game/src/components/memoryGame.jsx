@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import flipSound from "../../public/flip.mp3";
+import winSound from "../../public/win.mp3";
+import loseSound from "../../public/lose.mp3";
 
 const MemoryGame = () => {
   const [gridSize, setGridSize] = useState(4);
@@ -10,16 +13,12 @@ const MemoryGame = () => {
   const [moves, setMoves] = useState(0);
   const [minMoves, setMinMoves] = useState(10);
   const [gameOver, setGameOver] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(60); // Timer (60 sec)
+  const [timerRunning, setTimerRunning] = useState(false);
 
-  const handleGridSizeChange = (e) => {
-    const size = parseInt(e.target.value);
-    if (size >= 2 && size <= 10) setGridSize(size);
-  };
-
-  const handleMinMovesChange = (e) => {
-    const min = parseInt(e.target.value);
-    if (min > 0) setMinMoves(min);
-  };
+  const flipAudio = new Audio(flipSound);
+  const winAudio = new Audio(winSound);
+  const loseAudio = new Audio(loseSound);
 
   const initializeGame = () => {
     const totalCards = gridSize * gridSize;
@@ -39,15 +38,26 @@ const MemoryGame = () => {
     setWon(false);
     setMoves(0);
     setGameOver(false);
+    setTimeLeft(60); // Reset timer
+    setTimerRunning(true);
   };
 
   useEffect(() => {
-    initializeGame();
-  }, [gridSize]);
+    if (timerRunning && timeLeft > 0) {
+      const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+      return () => clearTimeout(timer);
+    } else if (timeLeft === 0) {
+      setGameOver(true);
+      setTimerRunning(false);
+      loseAudio.play();
+    }
+  }, [timeLeft, timerRunning]);
 
   useEffect(() => {
     if (moves > minMoves) {
       setGameOver(true);
+      setTimerRunning(false);
+      loseAudio.play();
     }
   }, [moves, minMoves]);
 
@@ -58,6 +68,8 @@ const MemoryGame = () => {
       moves <= minMoves
     ) {
       setWon(true);
+      setTimerRunning(false);
+      winAudio.play();
     }
   }, [solved, cards, moves, minMoves]);
 
@@ -79,6 +91,8 @@ const MemoryGame = () => {
   const handleClick = (id) => {
     if (disabled || won || gameOver) return;
 
+    flipAudio.play();
+
     if (flipped.length === 0) {
       setFlippled([id]);
       return;
@@ -89,9 +103,9 @@ const MemoryGame = () => {
       if (id !== flipped[0]) {
         setFlippled([...flipped, id]);
         setMoves((prev) => {
-          const newMove = prev + 1;
-          if (newMove > minMoves) setGameOver(true);
-          return newMove;
+          const newMoves = prev + 1;
+          if (newMoves > minMoves) setGameOver(true);
+          return newMoves;
         });
 
         checkMatch(id);
@@ -109,35 +123,31 @@ const MemoryGame = () => {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
       <h1 className="text-3xl font-bold mb-6">Memory Game</h1>
 
-      <div className="mb-4">
-        <label htmlFor="gridSize" className="mr-2">
-          Grid Size:
-        </label>
+      <div className="mb-4 flex space-x-4">
+        <label htmlFor="gridSize">Grid Size:</label>
         <input
           id="gridSize"
           type="number"
           min="2"
           max="10"
           value={gridSize}
-          onChange={handleGridSizeChange}
-          className="border-2 border-gray-300 rounded px-2 py-1 mr-4"
+          onChange={(e) => setGridSize(parseInt(e.target.value))}
+          className="border-2 border-gray-300 rounded px-2 py-1"
         />
 
-        <label htmlFor="minMoves" className="mr-2">
-          Min Moves:
-        </label>
+        <label htmlFor="minMoves">Min Moves:</label>
         <input
           id="minMoves"
           type="number"
           min="1"
           value={minMoves}
-          onChange={handleMinMovesChange}
+          onChange={(e) => setMinMoves(parseInt(e.target.value))}
           className="border-2 border-gray-300 rounded px-2 py-1"
         />
       </div>
 
       <div className="mb-2 text-lg font-semibold">
-        Moves: {moves} / {minMoves}
+        Moves: {moves} / {minMoves} | Time Left: {timeLeft}s
       </div>
 
       <div
@@ -165,20 +175,15 @@ const MemoryGame = () => {
       </div>
 
       {won && (
-        <div className="mt-4 text-4xl font-bold text-green-500 animate-bounce">
-          You Won!!!
-        </div>
+        <div className="mt-4 text-4xl font-bold text-green-500">You Won!!!</div>
       )}
-
       {gameOver && (
-        <div className="mt-4 text-4xl font-bold text-red-500">
-          Game Over! Exceeded {minMoves} moves.
-        </div>
+        <div className="mt-4 text-4xl font-bold text-red-500">Game Over!</div>
       )}
 
       <button
         onClick={initializeGame}
-        className="mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors cursor-pointer"
+        className="mt-4 px-4 py-2 bg-green-500 text-white rounded"
       >
         {won || gameOver ? "Play Again" : "Reset"}
       </button>
