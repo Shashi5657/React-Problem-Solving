@@ -3,6 +3,98 @@ import flipSound from "../../public/flip.mp3";
 import winSound from "../../public/win.mp3";
 import loseSound from "../../public/lose.mp3";
 
+const themes = {
+  numbers: [...Array(50).keys()].map((n) => n + 1), // Numbers 1-50
+  emojis: [
+    "😃",
+    "😂",
+    "😍",
+    "🤩",
+    "🥳",
+    "😎",
+    "😇",
+    "🤖",
+    "🤡",
+    "👽",
+    "🎃",
+    "💀",
+    "👻",
+    "🦄",
+    "🐵",
+    "🐶",
+    "🐱",
+    "🐭",
+    "🐹",
+    "🐰",
+  ],
+  animals: [
+    "🐶",
+    "🐱",
+    "🐻",
+    "🐰",
+    "🦊",
+    "🐼",
+    "🦁",
+    "🐸",
+    "🐯",
+    "🐮",
+    "🐷",
+    "🐵",
+    "🦉",
+    "🦆",
+    "🦇",
+    "🦄",
+    "🐢",
+    "🐙",
+    "🦎",
+    "🦕",
+  ],
+  fruits: [
+    "🍎",
+    "🍌",
+    "🍇",
+    "🍉",
+    "🍒",
+    "🥭",
+    "🍍",
+    "🍓",
+    "🥥",
+    "🍋",
+    "🍊",
+    "🥝",
+    "🍑",
+    "🍈",
+    "🥑",
+    "🥦",
+    "🍅",
+    "🌽",
+    "🍆",
+    "🥕",
+  ],
+  sports: [
+    "⚽",
+    "🏀",
+    "🏈",
+    "🎾",
+    "⚾",
+    "🏐",
+    "🏉",
+    "🥎",
+    "🥊",
+    "🏓",
+    "🏸",
+    "🥋",
+    "⛳",
+    "🏹",
+    "🏒",
+    "🏂",
+    "🛹",
+    "🎿",
+    "🛼",
+    "🚴",
+  ],
+};
+
 const MemoryGame = () => {
   const [gridSize, setGridSize] = useState(4);
   const [cards, setCards] = useState([]);
@@ -13,8 +105,10 @@ const MemoryGame = () => {
   const [moves, setMoves] = useState(0);
   const [minMoves, setMinMoves] = useState(10);
   const [gameOver, setGameOver] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(60); // Timer (60 sec)
+  const [timeLeft, setTimeLeft] = useState(60);
   const [timerRunning, setTimerRunning] = useState(false);
+  const [score, setScore] = useState(0);
+  const [theme, setTheme] = useState("numbers");
 
   const flipAudio = new Audio(flipSound);
   const winAudio = new Audio(winSound);
@@ -23,13 +117,22 @@ const MemoryGame = () => {
   const initializeGame = () => {
     const totalCards = gridSize * gridSize;
     const pairCount = Math.floor(totalCards / 2);
-    const numbers = [...Array(pairCount).keys()].map((n) => n + 1);
-    const shuffledCards = [...numbers, ...numbers]
+    // Get the selected theme icons
+    let themeIcons = themes[theme];
+
+    // If not enough icons, repeat them to cover the required pairs
+    while (themeIcons.length < pairCount) {
+      themeIcons = [...themeIcons, ...themeIcons]; // Duplicate existing icons
+    }
+
+    // Now slice the required number of pairs
+    const selectedIcons = themeIcons.slice(0, pairCount);
+    const shuffledCards = [...selectedIcons, ...selectedIcons]
       .sort(() => Math.random() - 0.5)
       .slice(0, totalCards)
-      .map((number, index) => ({
+      .map((icon, index) => ({
         id: index,
-        number,
+        value: icon,
       }));
 
     setCards(shuffledCards);
@@ -38,7 +141,8 @@ const MemoryGame = () => {
     setWon(false);
     setMoves(0);
     setGameOver(false);
-    setTimeLeft(60); // Reset timer
+    setTimeLeft(60);
+    setScore(0);
     setTimerRunning(true);
   };
 
@@ -70,13 +174,19 @@ const MemoryGame = () => {
       setWon(true);
       setTimerRunning(false);
       winAudio.play();
+      calculateScore();
     }
   }, [solved, cards, moves, minMoves]);
+
+  const calculateScore = () => {
+    const calculatedScore = timeLeft * 10 + (minMoves - moves) * 20;
+    setScore(calculatedScore > 0 ? calculatedScore : 0);
+  };
 
   const checkMatch = (secondId) => {
     const [firstId] = flipped;
 
-    if (cards[firstId].number === cards[secondId].number) {
+    if (cards[firstId].value === cards[secondId].value) {
       setSolved([...solved, firstId, secondId]);
       setFlippled([]);
       setDisabled(false);
@@ -102,12 +212,7 @@ const MemoryGame = () => {
       setDisabled(true);
       if (id !== flipped[0]) {
         setFlippled([...flipped, id]);
-        setMoves((prev) => {
-          const newMoves = prev + 1;
-          if (newMoves > minMoves) setGameOver(true);
-          return newMoves;
-        });
-
+        setMoves((prev) => prev + 1);
         checkMatch(id);
       } else {
         setFlippled([]);
@@ -124,9 +229,8 @@ const MemoryGame = () => {
       <h1 className="text-3xl font-bold mb-6">Memory Game</h1>
 
       <div className="mb-4 flex space-x-4">
-        <label htmlFor="gridSize">Grid Size:</label>
+        <label>Grid Size:</label>
         <input
-          id="gridSize"
           type="number"
           min="2"
           max="10"
@@ -135,19 +239,31 @@ const MemoryGame = () => {
           className="border-2 border-gray-300 rounded px-2 py-1"
         />
 
-        <label htmlFor="minMoves">Min Moves:</label>
+        <label>Min Moves:</label>
         <input
-          id="minMoves"
           type="number"
           min="1"
           value={minMoves}
           onChange={(e) => setMinMoves(parseInt(e.target.value))}
           className="border-2 border-gray-300 rounded px-2 py-1"
         />
+
+        <label>Theme:</label>
+        <select
+          value={theme}
+          onChange={(e) => setTheme(e.target.value)}
+          className="border-2 border-gray-300 rounded px-2 py-1"
+        >
+          {Object.keys(themes).map((t) => (
+            <option key={t} value={t}>
+              {t}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="mb-2 text-lg font-semibold">
-        Moves: {moves} / {minMoves} | Time Left: {timeLeft}s
+        Moves: {moves} / {minMoves} | Time Left: {timeLeft}s | Score: {score}
       </div>
 
       <div
@@ -160,7 +276,7 @@ const MemoryGame = () => {
         {cards.map((card) => (
           <div
             onClick={() => handleClick(card.id)}
-            className={`aspect-square flex items-center justify-center text-xl font-bold rounded-lg cursor-pointer transition-all duration-300 ${
+            className={`aspect-square flex items-center justify-center text-3xl font-bold rounded-lg cursor-pointer transition-all duration-300 ${
               isFlipped(card.id)
                 ? isSolved(card.id)
                   ? "bg-green-500 text-white"
@@ -169,13 +285,15 @@ const MemoryGame = () => {
             }`}
             key={card.id}
           >
-            {isFlipped(card.id) ? card.number : "?"}
+            {isFlipped(card.id) ? card.value : "?"}
           </div>
         ))}
       </div>
 
       {won && (
-        <div className="mt-4 text-4xl font-bold text-green-500">You Won!!!</div>
+        <div className="mt-4 text-4xl font-bold text-green-500">
+          You Won! Score: {score}
+        </div>
       )}
       {gameOver && (
         <div className="mt-4 text-4xl font-bold text-red-500">Game Over!</div>
