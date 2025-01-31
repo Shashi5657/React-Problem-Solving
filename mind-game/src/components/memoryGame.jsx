@@ -114,6 +114,10 @@ const MemoryGame = () => {
   const winAudio = new Audio(winSound);
   const loseAudio = new Audio(loseSound);
 
+  const calculateTimeLimit = (gridSize) => {
+    return 20 + (gridSize - 2) * 5; // Start with 20s for 2x2, increase by 5s per grid step
+  };
+
   const initializeGame = () => {
     const totalCards = gridSize * gridSize;
     const pairCount = Math.floor(totalCards / 2);
@@ -141,7 +145,9 @@ const MemoryGame = () => {
     setWon(false);
     setMoves(0);
     setGameOver(false);
-    setTimeLeft(60);
+    const timeLimit = calculateTimeLimit(gridSize);
+    setTimeLeft(timeLimit);
+    setTimerRunning(true);
     setScore(0);
     setTimerRunning(true);
   };
