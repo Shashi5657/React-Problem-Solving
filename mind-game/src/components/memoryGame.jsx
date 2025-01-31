@@ -109,13 +109,14 @@ const MemoryGame = () => {
   const [timerRunning, setTimerRunning] = useState(false);
   const [score, setScore] = useState(0);
   const [theme, setTheme] = useState("numbers");
+  const [darkMode, setDarkMode] = useState(false);
 
   const flipAudio = new Audio(flipSound);
   const winAudio = new Audio(winSound);
   const loseAudio = new Audio(loseSound);
 
   const calculateTimeLimit = (gridSize) => {
-    return 20 + (gridSize - 2) * 5; // Start with 20s for 2x2, increase by 5s per grid step
+    return 30 + (gridSize - 2) * 8; // Start with 20s for 2x2, increase by 5s per grid step
   };
 
   const initializeGame = () => {
@@ -231,8 +232,20 @@ const MemoryGame = () => {
   const isSolved = (id) => solved.includes(id);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-      <h1 className="text-3xl font-bold mb-6">Memory Game</h1>
+    <div
+      className={`min-h-screen flex flex-col items-center justify-center p-4 transition-all ${
+        darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-black"
+      }`}
+    >
+      <div className="flex justify-between w-full max-w-3xl mb-6">
+        <h1 className="text-4xl font-bold">Memory Game</h1>
+        <button
+          onClick={() => setDarkMode(!darkMode)}
+          className="p-2 bg-gray-700 text-white rounded-full shadow-md"
+        >
+          {darkMode ? "🌚" : "😎"}
+        </button>
+      </div>
 
       <div className="mb-4 flex space-x-4">
         <label>Grid Size:</label>
