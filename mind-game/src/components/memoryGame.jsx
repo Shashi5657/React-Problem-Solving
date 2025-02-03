@@ -233,94 +233,121 @@ const MemoryGame = () => {
 
   return (
     <div
-      className={`min-h-screen flex flex-col items-center justify-center p-4 transition-all ${
-        darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-black"
+      className={`min-h-screen w-full flex flex-col items-center justify-center p-6 transition-all ${
+        darkMode
+          ? "bg-gray-900 text-white"
+          : "bg-gradient-to-r from-purple-100 to-purple-300 text-gray-800"
       }`}
     >
+      {/* Header Section */}
       <div className="flex justify-between w-full max-w-3xl mb-6">
-        <h1 className="text-4xl font-bold">Memory Game</h1>
+        <h1 className="text-4xl font-bold tracking-wide">Memory Game</h1>
         <button
           onClick={() => setDarkMode(!darkMode)}
-          className="p-2 bg-gray-700 text-white rounded-full shadow-md"
+          className={`p-2 rounded-full transition-colors ${
+            darkMode
+              ? "bg-gray-700 text-yellow-300 hover:bg-gray-600"
+              : "bg-purple-500 text-white hover:bg-purple-600"
+          }`}
         >
-          {darkMode ? "🌚" : "😎"}
+          {darkMode ? "🌚" : "🌞"}
         </button>
       </div>
 
-      <div className="mb-4 flex space-x-4">
-        <label>Grid Size:</label>
-        <input
-          type="number"
-          min="2"
-          max="10"
-          value={gridSize}
-          onChange={(e) => setGridSize(parseInt(e.target.value))}
-          className="border-2 border-gray-300 rounded px-2 py-1"
-        />
-
-        <label>Min Moves:</label>
-        <input
-          type="number"
-          min="1"
-          value={minMoves}
-          onChange={(e) => setMinMoves(parseInt(e.target.value))}
-          className="border-2 border-gray-300 rounded px-2 py-1"
-        />
-
-        <label>Theme:</label>
-        <select
-          value={theme}
-          onChange={(e) => setTheme(e.target.value)}
-          className="border-2 border-gray-300 rounded px-2 py-1"
-        >
-          {Object.keys(themes).map((t) => (
-            <option key={t} value={t}>
-              {t}
-            </option>
-          ))}
-        </select>
+      {/* Controls */}
+      <div className="flex flex-wrap gap-4 items-center justify-center mb-6">
+        {/* Grid Size */}
+        <div className="flex flex-col items-center">
+          <label className="font-semibold">Grid Size</label>
+          <input
+            type="number"
+            min="2"
+            max="10"
+            value={gridSize}
+            onChange={(e) => setGridSize(parseInt(e.target.value) || 2)}
+            className="w-16 p-2 border rounded-md focus:outline-none focus:ring focus:ring-purple-400"
+          />
+        </div>
+        {/* Minimum Moves */}
+        <div className="flex flex-col items-center">
+          <label className="font-semibold">Min Moves</label>
+          <input
+            type="number"
+            min="1"
+            value={minMoves}
+            onChange={(e) => setMinMoves(parseInt(e.target.value) || 1)}
+            className="w-16 p-2 border rounded-md focus:outline-none focus:ring focus:ring-purple-400"
+          />
+        </div>
+        {/* Theme Selector */}
+        <div className="flex flex-col items-center">
+          <label className="font-semibold">Theme</label>
+          <select
+            value={theme}
+            onChange={(e) => setTheme(e.target.value)}
+            className="p-2 border rounded-md focus:outline-none focus:ring focus:ring-purple-400"
+          >
+            {Object.keys(themes).map((t) => (
+              <option key={t} value={t}>
+                {t}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
-      <div className="mb-2 text-lg font-semibold">
-        Moves: {moves} / {minMoves} | Time Left: {timeLeft}s | Score: {score}
+      {/* Game Stats */}
+      <div className="mb-4 text-lg font-semibold">
+        <p>
+          Moves: {moves} / {minMoves}
+        </p>
+        <p>Time Left: {timeLeft}s</p>
+        <p>Score: {score}</p>
       </div>
 
+      {/* Game Grid */}
       <div
-        className="grid gap-2 mb-4"
+        className={`grid gap-3 mb-4`}
         style={{
           gridTemplateColumns: `repeat(${gridSize}, minmax(0,1fr))`,
-          width: `min(100%, ${gridSize * 5.5}rem)`,
+          width: `min(100%, ${gridSize * 5.2}rem)`,
         }}
       >
         {cards.map((card) => (
           <div
+            key={card.id}
             onClick={() => handleClick(card.id)}
-            className={`aspect-square flex items-center justify-center text-3xl font-bold rounded-lg cursor-pointer transition-all duration-300 ${
+            className={`aspect-square flex items-center justify-center cursor-pointer rounded-lg transition-transform duration-300 ${
               isFlipped(card.id)
                 ? isSolved(card.id)
-                  ? "bg-green-500 text-white"
-                  : "bg-blue-500 text-white"
-                : "bg-gray-300 text-gray-400"
+                  ? "bg-green-500 text-white scale-105"
+                  : "bg-blue-500 text-white scale-105"
+                : "bg-gray-300 text-transparent hover:bg-gray-400 hover:text-black hover:scale-105"
             }`}
-            key={card.id}
           >
             {isFlipped(card.id) ? card.value : "?"}
           </div>
         ))}
       </div>
 
+      {/* Game Status Messages */}
       {won && (
-        <div className="mt-4 text-4xl font-bold text-green-500">
+        <div className="mt-4 text-xl font-bold text-green-600">
           You Won! Score: {score}
         </div>
       )}
-      {gameOver && (
-        <div className="mt-4 text-4xl font-bold text-red-500">Game Over!</div>
+      {gameOver && !won && (
+        <div className="mt-4 text-xl font-bold text-red-600">Game Over!</div>
       )}
 
+      {/* Reset / Play Again Button */}
       <button
         onClick={initializeGame}
-        className="mt-4 px-4 py-2 bg-green-500 text-white rounded"
+        className={`mt-6 px-6 py-2 rounded-md font-bold transition-transform transform hover:scale-105 ${
+          darkMode
+            ? "bg-purple-600 text-white hover:bg-purple-700"
+            : "bg-purple-500 text-white hover:bg-purple-600"
+        }`}
       >
         {won || gameOver ? "Play Again" : "Reset"}
       </button>
