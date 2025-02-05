@@ -15,3 +15,20 @@ function reverseAString(str) {
   return reversedStr;
 }
 console.log(reverseAString("shashi"));
+
+//find the missing number from the array of n numbers
+
+const numbersArray = [0, 5, 4, 1, 2, 3, 8, 6];
+
+function findMissingNumber(arr) {
+  //takes the length of the array
+  let n = arr.length;
+  // The sum of the first n natural numbers is given by the formula:
+  let expectedSum = (n * (n + 1)) / 2;
+  //first one is a callback function which is accumulator(ex sum), second one is the current value
+  let actualSum = arr.reduce((sum, num) => sum + num, 0);
+  //if we subtract we'll get the missing value
+  return expectedSum - actualSum;
+}
+
+console.log(findMissingNumber(numbersArray));
