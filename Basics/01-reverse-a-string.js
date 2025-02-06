@@ -14,7 +14,6 @@ function reverseAString(str) {
   }
   return reversedStr;
 }
-console.log(reverseAString("shashi"));
 
 //find the missing number from the array of n numbers
 
@@ -31,4 +30,27 @@ function findMissingNumber(arr) {
   return expectedSum - actualSum;
 }
 
-console.log(findMissingNumber(numbersArray));
+function isPalindrome(input) {
+  const str = String(input);
+  let cleanedStr = str.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+
+  const reversedCleanedStr = cleanedStr.split("").reverse().join("");
+
+  return cleanedStr === reversedCleanedStr;
+}
+
+function twoSum(nums, target) {
+  const map = new Map();
+
+  for (i = 0; i < nums.length; i++) {
+    const complement = target - nums[i];
+    if (map.has(complement)) {
+      return [map.get(complement), i];
+    }
+
+    map.set(nums[i], i);
+  }
+  return [];
+}
+
+console.log(twoSum([2, 7, 11, 15], 9));
