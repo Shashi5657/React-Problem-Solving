@@ -53,4 +53,43 @@ function twoSum(nums, target) {
   return [];
 }
 
-console.log(twoSum([2, 7, 11, 15], 9));
+function fibonacci(n) {
+  if (n < 0) return [];
+  if (n === 1) return [0];
+  if (n === 2) return [0, 1];
+
+  let fib = [0, 1];
+
+  for (let i = 2; i < n; i++) {
+    fib.push(fib[i - 1] + fib[i - 2]);
+  }
+  return fib;
+}
+
+function binarySearch(arr, target) {
+  let left = 0;
+  let right = arr.length - 1;
+
+  while (left <= right) {
+    let mid = Math.floor((left + right) / 2);
+    if (arr[mid] === target) return mid;
+    else if (arr[mid] < target) left = mid + 1;
+    else right = mid - 1;
+  }
+  return -1;
+}
+console.log(binarySearch([1, 2, 3, 4, 5, 6, 13, 56, 333], 13));
+
+function binarySearchRecursive(arr, target, left = 0, right = arr.length - 1) {
+  if (left > right) return -1; // Base case: not found
+
+  let mid = Math.floor((left + right) / 2); // Find the middle index
+
+  if (arr[mid] === target) return mid; // Found the target
+  else if (arr[mid] < target)
+    return binarySearchRecursive(arr, target, mid + 1, right); // Search right
+  else return binarySearchRecursive(arr, target, left, mid - 1); // Search left
+}
+
+// Example usage
+console.log(binarySearchRecursive([1, 2, 3, 4, 5, 6, 13, 56, 333], 13));
