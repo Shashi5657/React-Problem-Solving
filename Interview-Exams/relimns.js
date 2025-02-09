@@ -32,3 +32,41 @@ function searchPattern(str) {
   }
   return patternFound ? `yes ${maxPattern}` : "no null";
 }
+// Test cases
+console.log(SearchingChallenge("aabejiabkfabed")); // Output: "yes abe"
+console.log(SearchingChallenge("123224"));        // Output: "no null"
+console.log(SearchingChallenge("da2kr32a2"));     // Output: "yes a2"
+console.log(SearchingChallenge("sskfssbbb9bbb")); // Output: "yes bbb"
+console.log(SearchingChallenge("aa2bbbaacbbb"));  // Output: "yes bbb"
+
+function ArrayChallenge(strArr) {
+    let children = new Set();
+    let parents = new Map();
+
+    for (let pair of strArr) {
+        let [child, parent] = pair.match(/\d+/g).map(Number);
+
+        // Each child should have only one parent
+        if (children.has(child)) return "false";
+        children.add(child);
+
+        // Each parent should have at most 2 children
+        if (!parents.has(parent)) {
+            parents.set(parent, []);
+        }
+        parents.get(parent).push(child);
+        if (parents.get(parent).length > 2) return "false";
+    }
+
+    // A valid binary tree must have only one root (a node that is not a child)
+    let allNodes = new Set([...children, ...parents.keys()]);
+    let rootCandidates = [...allNodes].filter(node => !children.has(node));
+
+    return rootCandidates.length === 1 ? "true" : "false";
+}
+
+// Test cases
+console.log(ArrayChallenge(["(1,2)", "(2,4)", "(5,7)", "(7,2)", "(9,5)"])); // Output: "true"
+console.log(ArrayChallenge(["(1,2)", "(1,3)"])); // Output: "false"
+console.log(ArrayChallenge(["(1,2)", "(2,4)", "(7,2)", "(3,4)", "(5,4)"])); // Output: "true"
+console.log(ArrayChallenge(["(1,2)", "(2,4)", "(7,2)", "(3,4)", "(5,4)", "(6,4)"])); // Output: "false"
