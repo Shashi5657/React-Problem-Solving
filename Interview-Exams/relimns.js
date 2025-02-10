@@ -1,4 +1,9 @@
-// This function finds the longest repeating pattern in a given string and returns it. If no repeating pattern is found, it returns "no null"
+/*
+  SearchingChallenge Function
+  ---------------------------
+  This function takes a string and returns the longest repeating pattern that appears at least twice.
+  If no pattern is found, it returns "no null".
+*/
 
 function searchPattern(str) {
   // Step 1: Create two empty variables
@@ -38,6 +43,20 @@ console.log(searchPattern("123224")); // Output: "no null"
 console.log(searchPattern("da2kr32a2")); // Output: "yes a2"
 console.log(searchPattern("sskfssbbb9bbb")); // Output: "yes bbb"
 console.log(searchPattern("aa2bbbaacbbb")); // Output: "yes bbb"
+
+/*
+  ArrayChallenge Function
+  ------------------------
+  This function determines if the given pairs of numbers can form a valid binary tree.
+  A valid binary tree has at most one root and each node has at most two children.
+*/
+
+/*
+  StringChallenge Function
+  -------------------------
+  This function reads a string containing number words (zero-nine) and operators (plus, minus),
+  evaluates the mathematical expression, and returns the result as a written-out number.
+*/
 
 function ArrayChallenge(strArr) {
   // Step 1: Create Two Storage Containers
