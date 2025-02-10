@@ -33,40 +33,61 @@ function searchPattern(str) {
   return patternFound ? `yes ${maxPattern}` : "no null";
 }
 // Test cases
-console.log(SearchingChallenge("aabejiabkfabed")); // Output: "yes abe"
-console.log(SearchingChallenge("123224"));        // Output: "no null"
-console.log(SearchingChallenge("da2kr32a2"));     // Output: "yes a2"
-console.log(SearchingChallenge("sskfssbbb9bbb")); // Output: "yes bbb"
-console.log(SearchingChallenge("aa2bbbaacbbb"));  // Output: "yes bbb"
+console.log(searchPattern("aabejiabkfabed")); // Output: "yes abe"
+console.log(searchPattern("123224")); // Output: "no null"
+console.log(searchPattern("da2kr32a2")); // Output: "yes a2"
+console.log(searchPattern("sskfssbbb9bbb")); // Output: "yes bbb"
+console.log(searchPattern("aa2bbbaacbbb")); // Output: "yes bbb"
 
 function ArrayChallenge(strArr) {
-    let children = new Set();
-    let parents = new Map();
+  // Step 1: Create Two Storage Containers
+  let children = new Set(); // Set to store child nodes
+  let parents = new Map(); // Map to store parent-child relationships
+  //   children: This keeps track of all nodes that are children. A child should only have one parent.
+  // parents: This stores each parent and a list of its children
 
-    for (let pair of strArr) {
-        let [child, parent] = pair.match(/\d+/g).map(Number);
+  //   Step 2: Loop Through Each Parent-Child Pair
+  for (let pair of strArr) {
+    let [child, parent] = pair.match(/\d+/g).map(Number);
+    //     Each pair is a string like "(1,2)".
+    // We extract the numbers inside it using match(/\d+/g).map(Number).
+    // 🔹 Example: "(1,2)" → Extracts [1, 2]
+    // 1 is the child
+    // 2 is the parent
 
-        // Each child should have only one parent
-        if (children.has(child)) return "false";
-        children.add(child);
+    // Step 3: Check If A Child Has More Than One Parent
+    if (children.has(child)) return "false"; // A child can only have one parent
+    children.add(child);
+    //     If a child is already in the children set, it means the child already has a parent.
+    // Since a child should only have one parent, we return "false" immediately.
 
-        // Each parent should have at most 2 children
-        if (!parents.has(parent)) {
-            parents.set(parent, []);
-        }
-        parents.get(parent).push(child);
-        if (parents.get(parent).length > 2) return "false";
+    // Step 4: Store the Parent-Child Relationship
+    if (!parents.has(parent)) {
+      parents.set(parent, []);
     }
+    parents.get(parent).push(child);
+    //     If the parent isn't already in the parents map, we add it with an empty list.
+    // Then, we add the child to that parent's list of children.
 
-    // A valid binary tree must have only one root (a node that is not a child)
-    let allNodes = new Set([...children, ...parents.keys()]);
-    let rootCandidates = [...allNodes].filter(node => !children.has(node));
+    // Step 5: Check If A Parent Has More Than Two Children
+    if (parents.get(parent).length > 2) return "false"; // A parent can have at most 2 children
+  }
 
-    return rootCandidates.length === 1 ? "true" : "false";
+  //   Step 6: Identify the Root Node
+  let allNodes = new Set([...children, ...parents.keys()]);
+  let rootCandidates = [...allNodes].filter((node) => !children.has(node));
+  //   A root node is a node that never appears as a child.
+  // We create allNodes, which includes all parents and children.
+  // We find rootCandidates → nodes that are not in the children set.
+
+  //   Step 7: Check If There Is Exactly One Root
+  return rootCandidates.length === 1 ? "true" : "false";
 }
 
 // Test cases
 console.log(ArrayChallenge(["(1,2)", "(2,4)", "(5,7)", "(7,2)", "(9,5)"])); // Output: "true"
 console.log(ArrayChallenge(["(1,2)", "(1,3)"])); // Output: "false"
 console.log(ArrayChallenge(["(1,2)", "(2,4)", "(7,2)", "(3,4)", "(5,4)"])); // Output: "true"
-console.log(ArrayChallenge(["(1,2)", "(2,4)", "(7,2)", "(3,4)", "(5,4)", "(6,4)"])); // Output: "false"
+console.log(
+  ArrayChallenge(["(1,2)", "(2,4)", "(7,2)", "(3,4)", "(5,4)", "(6,4)"])
+); // Output: "false"
