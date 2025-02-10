@@ -91,3 +91,68 @@ console.log(ArrayChallenge(["(1,2)", "(2,4)", "(7,2)", "(3,4)", "(5,4)"])); // O
 console.log(
   ArrayChallenge(["(1,2)", "(2,4)", "(7,2)", "(3,4)", "(5,4)", "(6,4)"])
 ); // Output: "false"
+
+function StringChallenge(str) {
+  // Step 1: Create a Dictionary to Convert Words to Numbers
+  let wordToDigit = {
+    zero: "0",
+    one: "1",
+    two: "2",
+    three: "3",
+    four: "4",
+    five: "5",
+    six: "6",
+    seven: "7",
+    eight: "8",
+    nine: "9",
+  };
+  //   This maps words like "one" to "1", "two" to "2", and so on.
+  // We will use this to convert words into actual numbers.
+
+  //   Step 2: Extract Words From the Input String
+  let regex = /(zero|one|two|three|four|five|six|seven|eight|nine|plus|minus)/g;
+  let tokens = str.match(regex);
+  //   The regex (a search pattern) finds words like "four", "six", "minus", etc.
+  // str.match(regex) breaks the long string into meaningful parts.
+  //   🔹 Example: StringChallenge("foursixminustwotwoplusonezero");
+  // Extracted words: ["four", "six", "minus", "two", "two", "plus", "one", "zero"]
+
+  //   Step 3: Convert Words to a Math Expression
+  let expression = "";
+  for (let token of tokens) {
+    if (token in wordToDigit) {
+      expression += wordToDigit[token]; // Convert word to digit
+    } else if (token === "plus") {
+      expression += "+"; // Convert "plus" to "+"
+    } else if (token === "minus") {
+      expression += "-"; // Convert "minus" to "-"
+    }
+    // It goes through each word and builds a valid math equation.
+    // "four" → "4", "six" → "6", "minus" → "-", etc.
+    // 🔹 Example: tokens = ["four", "six", "minus", "two", "two", "plus", "one", "zero"]
+    // Expression becomes: "46-22+10"
+  }
+
+  //   Step 4: Solve the Math Problem
+  let result = eval(expression);
+  //   The eval() function solves the math equation.
+
+  //   Step 5: Convert the Answer Back to Words
+  let digitToWord = Object.fromEntries(
+    Object.entries(wordToDigit).map(([k, v]) => [v, k])
+  );
+
+  let resultStr = result
+    .toString()
+    .split("")
+    .map((char) => (char === "-" ? "negative" : digitToWord[char]))
+    .join("");
+
+  return resultStr;
+}
+
+// Test cases
+console.log(StringChallenge("foursixminustwotwoplusonezero")); // Output: "threefour"
+console.log(StringChallenge("onezeropluseight")); // Output: "oneeight"
+console.log(StringChallenge("oneminusoneone")); // Output: "negativeonezero"
+console.log(StringChallenge("nineplussixminusthree")); // Output: "onetwo"
