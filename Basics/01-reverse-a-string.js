@@ -136,3 +136,24 @@ function binarySearchRecursive(arr, target, left = 0, right = arr.length - 1) {
 
 // Example usage
 console.log(binarySearchRecursive([1, 2, 3, 4, 5, 6, 13, 56, 333], 13));
+
+//Bubble sort
+
+function bubbleSort(arr) {
+  let n = arr.length;
+  let swapped;
+
+  do {
+    swapped = false;
+    for (i = 0; i < n - 1; i++) {
+      if (arr[i] > arr[i + 1]) {
+        [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]];
+        swapped = true;
+      }
+    }
+    n--;
+  } while (swapped);
+  return arr
+}
+
+console.log(bubbleSort([21, 8, 16, 5]));
