@@ -153,29 +153,81 @@ function bubbleSort(arr) {
     }
     n--;
   } while (swapped);
-  return arr
+  return arr;
 }
 
+function selectionSort(arr) {
+  let n = arr.length;
 
+  for (i = 0; i < n - 1; i++) {
+    let minIndex = i;
 
-function selectionSort(arr){
-  let n = arr.length
-
-  for(i = 0; i<n-1; i++){
-    let minIndex = i
-
-    for(j = i+1; j< n; j++){
-      if(arr[j] < arr[minIndex]){
-        minIndex = j
+    for (j = i + 1; j < n; j++) {
+      if (arr[j] < arr[minIndex]) {
+        minIndex = j;
       }
     }
 
-    if(minIndex !== i){
-      [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]]
+    if (minIndex !== i) {
+      [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]];
     }
   }
 
-  return arr
+  return arr;
 }
 
 console.log(selectionSort([21, 8, 16, 5]));
+
+function mergeSort(arr) {
+  if (arr.length <= 1) return arr; // Base case: if only 1 element, it's already sorted
+
+  let mid = Math.floor(arr.length / 2); // Find middle index
+  let left = mergeSort(arr.slice(0, mid)); // Recursively sort left half
+  let right = mergeSort(arr.slice(mid)); // Recursively sort right half
+
+  return merge(left, right); // Merge sorted halves
+}
+
+function merge(left, right) {
+  let result = [];
+  let i = 0,
+    j = 0;
+
+  while (i < left.length && j < right.length) {
+    // Compare elements from both halves
+    if (left[i] < right[j]) {
+      result.push(left[i]); // Add smaller element to result
+      i++;
+    } else {
+      result.push(right[j]);
+      j++;
+    }
+  }
+
+  return result.concat(left.slice(i)).concat(right.slice(j)); // Add remaining elements
+}
+
+// Example
+console.log(mergeSort([4, 2, 7, 1])); // Output: [1, 2, 4, 7]
+
+function quickSort(arr) {
+  if (arr.length <= 1) return arr; // Base case: If only 1 element, it's already sorted
+
+  let pivot = arr[arr.length - 1]; // Choose the last element as pivot
+  let left = [],
+    right = [];
+
+  for (let i = 0; i < arr.length - 1; i++) {
+    // Partition the array
+    if (arr[i] < pivot) {
+      left.push(arr[i]); // Elements smaller than pivot go left
+    } else {
+      right.push(arr[i]); // Elements greater go right
+    }
+  }
+
+  return [...quickSort(left), pivot, ...quickSort(right)]; // Recursively sort left & right, then combine
+}
+
+// Example
+console.log(quickSort([4, 2, 7, 1])); // Output: [1, 2, 4, 7]
