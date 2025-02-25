@@ -231,3 +231,22 @@ function quickSort(arr) {
 
 // Example
 console.log(quickSort([4, 2, 7, 1])); // Output: [1, 2, 4, 7]
+
+//recursive functions
+
+// Base Case: The stopping condition that prevents infinite recursion.
+// Recursive Case: The function calls itself with modified arguments to move toward the base case.
+function countdown(n) {
+  if (n === 0) return; //base case
+  console.log(n);
+  countdown(n - 1); //recursive case
+}
+
+countdown(5);
+
+function factorial(n){
+  if(n === 0) return 1 // base case
+  return n * factorial(n-1) // recursive case
+}
+
+console.log(factorial(5), 'factorial of 5')
