@@ -250,3 +250,15 @@ function factorial(n){
 }
 
 console.log(factorial(5), 'factorial of 5')
+
+function quickSort(arr){
+  if(arr.length <= 1)return arr
+
+  let pivot = arr[arr.length - 1]
+  let left = arr.filter(e => e< pivot)
+  let right = arr.filter(e => e> pivot)
+
+  return [...quickSort(left), pivot, ...quickSort(right)]
+}
+
+console.log(quickSort([5, 3, 8, 4, 2]));
