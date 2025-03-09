@@ -1,5 +1,5 @@
 import React from "react";
-import profilePic from "../images/prof.jpg";
+import secondImg from "../images/pc-setup.jpeg";
 import LeftSocialBar from "./LeftSocialbar";
 
 const About = () => {
@@ -14,7 +14,7 @@ const About = () => {
       {/* Profile Image - Adjusted to 5:7 Aspect Ratio */}
       <div className="relative w-[250px] h-[350px] md:w-[300px] md:h-[420px] rounded-lg overflow-hidden border-4 border-cyan-400 shadow-xl hover:scale-105 transform transition duration-500">
         <img
-          src={profilePic}
+          src={secondImg}
           alt="Profile"
           className="w-full h-full object-cover"
         />

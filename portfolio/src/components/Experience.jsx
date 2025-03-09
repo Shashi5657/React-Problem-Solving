@@ -2,25 +2,29 @@ import React from "react";
 
 const experiences = [
   {
-    company: "Company A",
+    company: "CAGEN TECHNOLOGIES",
     role: "Frontend Developer",
-    duration: "Jan 2023 - Present",
-    description:
-      "Developed interactive UIs using React.js and Next.js, optimizing performance and user experience.",
+    duration: "Jul 2024 - Present",
+    description: `
+       Developed a scalable frontend architecture using Next.js, TypeScript, and Ant Design.
+       Implemented Context API for authentication and protected routes.
+       Designed dynamic form fields with custom validation for multiple input types.
+       Integrated Google Maps API for inspector location tracking and polygon mapping.
+       Created a modular, reusable table component with an interactive data management system.
+       Managed API integrations (GET, POST, DELETE) with dynamic query parameters.
+    `,
   },
   {
-    company: "Company B",
-    role: "Full Stack Developer",
-    duration: "Jul 2021 - Dec 2022",
-    description:
-      "Built scalable backend APIs using Node.js and Express, integrated MongoDB, and optimized RESTful endpoints.",
-  },
-  {
-    company: "Company C",
-    role: "Web Developer Intern",
-    duration: "Mar 2020 - Jun 2021",
-    description:
-      "Worked on responsive UI components, collaborated with teams, and contributed to open-source projects.",
+    company: "HulkHire",
+    role: "Frontend Developer",
+    duration: "Feb 2024 - Jun 2024",
+    description: `
+       Built interactive UI components using React.js, Tailwind CSS, and JavaScript.
+       Integrated real-time payment status updates with asynchronous API calls and Webhooks.
+       Applied lazy loading, code splitting, and rendering optimizations for better performance.
+       Used React Hooks for efficient state management and modular code structure.
+       Worked on SEO optimization and best practices for progressive web applications (PWA).
+    `,
   },
 ];
 
@@ -42,7 +46,14 @@ const Experience = () => {
               <p className="text-sm text-gray-400">
                 {exp.company} • {exp.duration}
               </p>
-              <p className="mt-2 text-gray-300">{exp.description}</p>
+              <ul className="mt-2 text-gray-300 list-disc list-inside space-y-1">
+                {exp.description
+                  .trim()
+                  .split("\n")
+                  .map((point, i) => (
+                    <li key={i}>{point.trim()}</li>
+                  ))}
+              </ul>
             </div>
           </div>
         ))}
