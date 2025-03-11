@@ -42,7 +42,7 @@ const skills = [
   {
     name: "JavaScript",
     icon: <FaJs className="text-yellow-500" />,
-    percentage: 70,
+    percentage: 85,
   },
   {
     name: "TypeScript",
@@ -52,22 +52,22 @@ const skills = [
   {
     name: "ReactJs",
     icon: <FaReact className="text-cyan-400" />,
-    percentage: 75,
+    percentage: 85,
   },
   {
     name: "NextJs",
     icon: <SiNextdotjs className="text-black dark:text-white" />,
-    percentage: 65,
+    percentage: 80,
   },
   {
     name: "ExpressJs",
     icon: <SiExpress className="text-white dark:text-white" />,
-    percentage: 60,
+    percentage: 70,
   },
   {
     name: "NodeJs",
     icon: <FaNodeJs className="text-green-500" />,
-    percentage: 70,
+    percentage: 75,
   },
   {
     name: "MongoDB",
@@ -77,13 +77,13 @@ const skills = [
   {
     name: "MySQL",
     icon: <SiMysql className="text-blue-700" />,
-    percentage: 80,
+    percentage: 70,
   },
   { name: "Git", icon: <FaGit className="text-red-600" />, percentage: 85 },
   {
     name: "ANTD",
     icon: <SiAntdesign className="text-blue-400" />,
-    percentage: 60,
+    percentage: 80,
   },
 ];
 

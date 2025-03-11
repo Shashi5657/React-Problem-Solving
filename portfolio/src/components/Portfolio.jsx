@@ -1,47 +1,64 @@
 import React, { useEffect, useRef } from "react";
+import project1 from "../images/recallrush.png";
+import project2 from "../images/image.png";
+import project3 from "../images/movies.png";
+import project4 from "../images/cart.png";
+import project5 from "../images/notes.png";
+import project6 from "../images/tenzies.png";
+import project7 from "../images/invest.png";
+import project8 from "../images/pomodoro.png";
 
 const projects = [
   {
-    title: "Portfolio Website 1",
-    description:
-      "A personal portfolio website showcasing my work, skills, and experience.",
-    image: "https://via.placeholder.com/400",
-    link: "https://yourportfolio.com",
+    title: "Recall Rush",
+    description: "Match pairs, remember locations, beat minimum moves in time.",
+    image: project1,
+    link: "https://recallrush.netlify.app/",
   },
   {
-    title: "E-Commerce Store 2",
+    title: "Pomodoro Timer",
     description:
-      "A full-stack e-commerce website with payment integration and product management.",
-    image: "https://via.placeholder.com/400",
+      "Pomodoro timer with work time tracking and pause/reset controls.",
+    image: project8,
+    link: "https://time-chunker.netlify.app/",
+  },
+  {
+    title: "Tic-Tac-Toe",
+    description: "Two players battle to align three symbols in a row.",
+    image: project2,
+    link: "https://tict-tact-toet.netlify.app/",
+  },
+  {
+    title: "Movies Dashboard",
+    description:
+      "Movix streaming platform's homepage, showcasing trending and popular movies and TV shows.",
+    image: project3,
+    link: "https://movix-ten-kappa.vercel.app/",
+  },
+  {
+    title: "Markdown Notes",
+    description: "Markdown notes app with preview pane and list view.",
+    image: project5,
     link: "https://yourecommerce.com",
   },
   {
-    title: "Dashboard Portal 3",
+    title: "Investment Calculator",
     description:
-      "An interactive dashboard for monitoring and analytics with real-time data.",
-    image: "https://via.placeholder.com/400",
-    link: "https://yourdashboard.com",
+      "Investment calculator with inputs and growth projection table.",
+    image: project7,
+    link: "https://investo-calci.netlify.app/",
   },
   {
-    title: "Portfolio Website 4",
-    description:
-      "A personal portfolio website showcasing my work, skills, and experience.",
-    image: "https://via.placeholder.com/400",
-    link: "https://yourportfolio.com",
+    title: "Tenzies Game",
+    description: "Roll dice, freeze matches, aim for all same values.",
+    image: project6,
+    link: "https://tennziess-game.netlify.app/",
   },
   {
-    title: "E-Commerce Store 5",
-    description:
-      "A full-stack e-commerce website with payment integration and product management.",
-    image: "https://via.placeholder.com/400",
-    link: "https://yourecommerce.com",
-  },
-  {
-    title: "Dashboard Portal 6",
-    description:
-      "An interactive dashboard for monitoring and analytics with real-time data.",
-    image: "https://via.placeholder.com/400",
-    link: "https://yourdashboard.com",
+    title: "Add to Cart",
+    description: "Cute shopping app interface with add-to-cart button.",
+    image: project4,
+    link: "https://my-groceriiis.netlify.app/",
   },
 ];
 

@@ -5,7 +5,7 @@ const Home = () => {
   return (
     <section
       id="home"
-      className="flex flex-col md:flex-row items-center justify-evenly min-h-screen px-6 md:px-16 py-12"
+      className="flex flex-col-reverse w-full md:flex-row items-center justify-evenly min-h-screen px-6 md:px-16 py-12 bg-gray-900"
     >
       {/* Left Content */}
       <div className="text-center md:text-left max-w-xl">
