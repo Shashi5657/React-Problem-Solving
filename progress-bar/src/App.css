@@ -1,0 +1,16 @@
+body {
+  text-align: center;
+}
+
+.outer {
+  border: 1px solid black;
+  margin: 10px 0;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.inner {
+  background-color: green;
+  text-align: right;
+  transition: 0.5s ease-in;
+}
