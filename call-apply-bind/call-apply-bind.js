@@ -27,3 +27,6 @@ async function getData() {
 }
 
 getData();
+
+// A closure is when a function remembers the variables from its parent function
+// even after the parent function has finished executing.

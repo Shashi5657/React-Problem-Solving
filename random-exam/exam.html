@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interactive Pricing Boxes</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: #fff;
+      }
+      .container {
+        width: 350px;
+        border: 2px solid #ddd;
+        padding: 15px;
+        border-radius: 10px;
+      }
+      .box {
+        border: 2px solid #888;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+      .box.expanded {
+        background: #f9f9f9;
+        border-color: #ff3366;
+      }
+      .options {
+        display: none;
+        margin-top: 10px;
+      }
+      .box.expanded .options {
+        display: block;
+      }
+      button {
+        background: #ff3366;
+        color: white;
+        border: none;
+        padding: 10px;
+        width: 100%;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="box" onclick="toggleBox(this)">
+        <p>
+          <strong>1 Unit</strong> <span style="color: red">10% Off</span> -
+          $10.00 USD
+        </p>
+        <div class="options">
+          <label
+            >Size:
+            <select>
+              <option>S</option>
+              <option>M</option>
+              <option>L</option>
+            </select></label
+          >
+          <label
+            >Color:
+            <select>
+              <option>Black</option>
+              <option>White</option>
+            </select></label
+          >
+        </div>
+      </div>
+
+      <div class="box" onclick="toggleBox(this)">
+        <p>
+          <strong>2 Units</strong> <span style="color: red">20% Off</span> -
+          $18.00 USD
+        </p>
+        <div class="options">
+          <label
+            >#1 Size:
+            <select>
+              <option>S</option>
+              <option>M</option>
+              <option>L</option>
+            </select></label
+          >
+          <label
+            >#1 Color:
+            <select>
+              <option>Black</option>
+              <option>White</option>
+            </select></label
+          >
+          <label
+            >#2 Size:
+            <select>
+              <option>S</option>
+              <option>M</option>
+              <option>L</option>
+            </select></label
+          >
+          <label
+            >#2 Color:
+            <select>
+              <option>Black</option>
+              <option>White</option>
+            </select></label
+          >
+        </div>
+      </div>
+
+      <div class="box" onclick="toggleBox(this)">
+        <p>
+          <strong>3 Units</strong> <span style="color: red">30% Off</span> -
+          $24.00 USD
+        </p>
+        <div class="options">
+          <label
+            >#1 Size:
+            <select>
+              <option>S</option>
+              <option>M</option>
+              <option>L</option>
+            </select></label
+          >
+          <label
+            >#1 Color:
+            <select>
+              <option>Black</option>
+              <option>White</option>
+            </select></label
+          >
+          <label
+            >#2 Size:
+            <select>
+              <option>S</option>
+              <option>M</option>
+              <option>L</option>
+            </select></label
+          >
+          <label
+            >#2 Color:
+            <select>
+              <option>Black</option>
+              <option>White</option>
+            </select></label
+          >
+          <label
+            >#3 Size:
+            <select>
+              <option>S</option>
+              <option>M</option>
+              <option>L</option>
+            </select></label
+          >
+          <label
+            >#3 Color:
+            <select>
+              <option>Black</option>
+              <option>White</option>
+            </select></label
+          >
+        </div>
+      </div>
+
+      <button>Add to Cart</button>
+    </div>
+
+    <script>
+      function toggleBox(element) {
+        let boxes = document.querySelectorAll(".box");
+        boxes.forEach((box) => {
+          if (box !== element) {
+            box.classList.remove("expanded");
+          }
+        });
+        element.classList.toggle("expanded");
+      }
+    </script>
+  </body>
+</html>
