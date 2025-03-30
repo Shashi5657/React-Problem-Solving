@@ -30,3 +30,62 @@ getData();
 
 // A closure is when a function remembers the variables from its parent function
 // even after the parent function has finished executing.
+
+function counter() {
+  let count = 0;
+
+  return {
+    increment: function () {
+      count++;
+      console.log(count);
+    },
+    decrement: function () {
+      count--;
+      console.log(count);
+    },
+  };
+}
+
+const myCounter = counter();
+myCounter.increment(); // Output: 1
+myCounter.increment(); // Output: 2
+myCounter.decrement(); // Output: 1
+
+function multiplier(factor) {
+  return function (number) {
+    return number * factor;
+  };
+}
+
+const double = multiplier(2);
+const triple = multiplier(3);
+
+console.log(double(5)); // Output: 10
+console.log(triple(5)); // Output: 15
+
+function delayedMessage(message, delay) {
+  return function () {
+    setTimeout(() => console.log(message), delay);
+  };
+}
+
+const helloLater = delayedMessage("Hello, world!", 2000);
+helloLater();
+// Output (after 2 seconds): Hello, world!
+
+
+// Lexical scoping determines variable accessibility based on 
+// where functions are defined, not where they are called.
+
+function outer() {
+    let outerVar = "I am outer!";
+
+    function inner() {
+        console.log(outerVar);
+    }
+
+    inner();
+}
+
+outer(); 
+// Output: I am outer!
