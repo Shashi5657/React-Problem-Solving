@@ -60,7 +60,6 @@ function multiplier(factor) {
 const double = multiplier(2);
 const triple = multiplier(3);
 
-
 console.log(double(5)); // Output: 10
 console.log(triple(5)); // Output: 15
 
@@ -76,19 +75,18 @@ helloLater();
 
 // Output (after 2 seconds): Hello, world!
 
-
-// Lexical scoping determines variable accessibility based on 
+// Lexical scoping determines variable accessibility based on
 // where functions are defined, not where they are called.
 
 function outer() {
-    let outerVar = "I am outer!";
+  let outerVar = "I am outer!";
 
-    function inner() {
-        console.log(outerVar);
-    }
+  function inner() {
+    console.log(outerVar);
+  }
 
-    inner();
+  inner();
 }
 
-outer(); 
+outer();
 // Output: I am outer!
