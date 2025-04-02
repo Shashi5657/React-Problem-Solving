@@ -60,6 +60,7 @@ function multiplier(factor) {
 const double = multiplier(2);
 const triple = multiplier(3);
 
+
 console.log(double(5)); // Output: 10
 console.log(triple(5)); // Output: 15
 
@@ -70,7 +71,9 @@ function delayedMessage(message, delay) {
 }
 
 const helloLater = delayedMessage("Hello, world!", 2000);
+
 helloLater();
+
 // Output (after 2 seconds): Hello, world!
 
 
