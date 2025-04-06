@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>React Without JSX</title>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <!-- Load React and ReactDOM from CDN -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Your app -->
+    <script>
+      const { useState, useEffect } = React;
+
+      function App() {
+        const [count, setCount] = useState(0);
+
+        useEffect(() => {
+          console.log("Component mounted or updated");
+        }, [count]);
+
+        return React.createElement(
+          "div",
+          {
+            style: {
+              fontFamily: "sans-serif",
+              textAlign: "center",
+              marginTop: "50px",
+            },
+          },
+          React.createElement("h1", null, "React Without JSX"),
+          React.createElement("p", null, `Count: ${count}`),
+          React.createElement(
+            "button",
+            { onClick: () => setCount(count + 1) },
+            "Increment"
+          )
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(React.createElement(App));
+    </script>
+  </body>
+</html>
