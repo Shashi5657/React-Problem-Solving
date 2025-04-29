@@ -4,14 +4,14 @@ import type { UserType } from "../types/types";
 
 const Users = () => {
   const queryClient = useQueryClient();
-  const fetchUsers = async () => {
+  const fetchUsers = async (): Promise<UserType[]> => {
     const response = await fetch("http://localhost:8080/users");
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
     return response.json();
   };
-  const { data } = useQuery({
+  const { data, isLoading, isError, error } = useQuery<UserType[]>({
     queryKey: ["users"],
     queryFn: fetchUsers,
     staleTime: Infinity,
@@ -45,6 +45,14 @@ const Users = () => {
     }
     queryClient.invalidateQueries({ queryKey: ["users"] });
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <div className="users">
