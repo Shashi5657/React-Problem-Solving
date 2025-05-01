@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import User from "./User";
 import type { UserType } from "../types/types";
 
@@ -16,7 +16,6 @@ const Users = () => {
     queryFn: fetchUsers,
     staleTime: Infinity,
   });
-
   const handleAddNewUser = async () => {
     const response = await fetch("http://localhost:8080/users", {
       method: "POST",
@@ -32,8 +31,19 @@ const Users = () => {
     if (!response.ok) {
       throw new Error("Failed to add new user");
     }
-    queryClient.invalidateQueries({ queryKey: ["users"] });
+    // queryClient.invalidateQueries({ queryKey: ["users"] });
   };
+
+  const { mutate } = useMutation({
+    mutationFn: handleAddNewUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+    },
+    onError: (error) => {
+      alert(`Error: ${error.message}`);
+    },
+  });
+
   console.log(data, "data");
 
   const handleDelete = async (id: string) => {
@@ -60,7 +70,7 @@ const Users = () => {
         data.map((user: UserType) => {
           return <User key={user._id} {...user} handleDelete={handleDelete} />;
         })}
-      <button onClick={handleAddNewUser}>Add User</button>
+      <button onClick={() => mutate()}>Add User</button>
     </div>
   );
 };
