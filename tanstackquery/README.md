@@ -103,3 +103,48 @@ Informs Tanstack Query that cached data is potentially out of date. The next tim
 - **Enjoy** automatic caching, background updates, and smart refetching.
 
 ---
+
+## 🔁 useMutation vs useQuery in React Query
+
+React Query provides powerful hooks to handle API interactions with ease and minimal boilerplate. Below is a comparison and use case explanation for useMutation and useQuery.
+
+🔨 useMutation
+Best used for creating, updating, or deleting data (POST, PUT, DELETE requests).
+
+Unlike useQuery, useMutation is not automatically triggered—it runs only when explicitly invoked.
+
+Provides powerful lifecycle callbacks such as onSuccess, onError, and onSettled to handle side effects.
+
+✅ Benefits of useMutation
+Simplifies side-effect handling without manual try...catch.
+
+Cleaner and more maintainable than using async/await + try...catch.
+
+Automatically integrates with the React Query cache, enabling patterns like invalidating or refetching queries after mutations.
+
+📌 Example: Add New User with useMutation
+
+> import { useMutation, useQueryClient } from '@tanstack/react-query';
+> import { addNewUser } from './api';
+>
+> const queryClient = useQueryClient();
+>
+> const { mutate } = useMutation({
+> mutationFn: (newUser) => addNewUser(newUser),
+>
+> onSuccess: () => {
+> // Invalidate the "users" query to refetch updated data
+> queryClient.invalidateQueries({ queryKey: ['users'] });
+> },
+>
+> onError: (error) => {
+> console.error('Error adding user:', error);
+> },
+>
+> onSettled: () => {
+> console.log('Mutation completed (success or error)');
+> },
+> });
+> 🚀 Usage in Component
+
+mutate({ name: 'Shashidhar', email: 'shashidhar@example.com' });

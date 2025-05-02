@@ -1,6 +1,12 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import User from "./User";
 import type { UserType } from "../types/types";
+import { useState } from "react";
 
 const Users = () => {
   const queryClient = useQueryClient();
@@ -44,8 +50,6 @@ const Users = () => {
     },
   });
 
-  console.log(data, "data");
-
   const handleDelete = async (id: string) => {
     const response = await fetch(`http://localhost:8080/users/${id}`, {
       method: "DELETE",
@@ -55,6 +59,44 @@ const Users = () => {
     }
     queryClient.invalidateQueries({ queryKey: ["users"] });
   };
+
+  //dynamic query options - dynamically fetching based on the condition
+  const [userId, setUserId] = useState(2);
+
+  const { data: posts, isLoading } = useQuery({
+    queryKey: ["posts", userId],
+    queryFn: () =>
+      fetch(`https://jsonplaceholder.com/posts?user=${userId}`).then((res) =>
+        res.json()
+      ),
+    enabled: !!userId,
+  });
+
+  const {
+    data: pageData,
+    hasNextPage,
+    fetchNextPage,
+  } = useInfiniteQuery({
+    queryKey: ["feedData"],
+    queryFn: (pageParam) =>
+      fetch(`https://jsonplaceholder.com/posts?limit=${pageParam}`).then(
+        (res) => res.json()
+      ),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => {
+      return lastPage?.pagination?.hasMore
+        ? lastPage.pagination.currentPage + 1
+        : undefined;
+    },
+  });
+
+  if (pageData) {
+    // implement something
+  }
+
+  if (hasNextPage) {
+    fetchNextPage();
+  }
 
   if (isLoading) {
     return <div>Loading...</div>;
