@@ -22,7 +22,7 @@ export const createUser = async (req, res) => {
 export const getAllUsers = async (req, res) => {
   try {
     const allUsers = await User.find({});
-    return res.status(200).json(allUsers);
+    return res.status(200).json({ message: "success", users: allUsers });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Internal server error" });

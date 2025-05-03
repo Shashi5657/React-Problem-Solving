@@ -48,8 +48,6 @@ if (error) return <div>Error: {error.message}</div>;
 return <div>{/_ Render your data here _/}</div>;
 };
 
-text
-
 ---
 
 ## 3. Cache Lifetimes
@@ -65,8 +63,6 @@ queryKey: ['users'],
 queryFn: () => fetch('/api/users').then(res => res.json()),
 staleTime: 5 _ 60 _ 1000, // 5 minutes until data goes stale
 });
-
-text
 
 ---
 
@@ -148,3 +144,96 @@ Automatically integrates with the React Query cache, enabling patterns like inva
 > 🚀 Usage in Component
 
 mutate({ name: 'Shashidhar', email: 'shashidhar@example.com' });
+
+## 🚀 Dynamic Query Options
+
+Dynamic query options lets you conditionally change or build the query's behaviour using things like variables such as filter, userId, sort, searchterm etc
+
+> > Example
+> > const { data, isLoading } = useQuery({
+> > queryKey: ['user', userId],
+> > queryFn: () => fetch(`/api/user/${userId}`).then(res => res.json()),
+> > enabled: !!userId, // don't run until userId is truthy
+> > });
+> > 👆 enabled: !!userId is dynamic control – it tells React Query:
+
+“Only run this query when userId exists!”
+
+> > Example
+> > const [filter, setFilter] = useState("active");
+> > const { data } = useQuery({
+> > queryKey: ['users', filter],
+> > queryFn: () => fetch(`/api/users?status=${filter}`).then(res => res.json()),
+> > });
+> > 🧠 Why it's powerful:
+
+When filter changes → query key changes → query refetches
+
+You can build dynamic UIs like toggling between “Active”, “Pending”, “All”
+
+> Example 3
+> const { data: user } = useQuery({
+> queryKey: ['user', userId],
+> queryFn: () => fetchUser(userId),
+> enabled: !!userId,
+> });
+
+> const { data: posts } = useQuery({
+> queryKey: ['posts', user?.id],
+> queryFn: () => fetchUserPosts(user.id),
+> enabled: !!user?.id, // waits for user data before running
+> });
+> 👑 This is dependent queries using dynamic options — wait for one query to finish before running another.
+
+## 🔁 Infinite Querying & Pagination
+
+const fetchPosts = ({ pageParam = 1 }) =>
+fetch(`/api/posts?page=${pageParam}`).then(res => res.json());
+
+const {
+data,
+fetchNextPage,
+hasNextPage,
+isFetchingNextPage,
+} = useInfiniteQuery({
+queryKey: ['posts'],
+queryFn: fetchPosts,
+getNextPageParam: (lastPage, allPages) => {
+return lastPage.hasMore ? allPages.length + 1 : undefined;
+},
+});
+✅ getNextPageParam decides what the next page number should be based on the last API response.
+
+🔹UI with Load More Button
+return (
+
+  <div>
+    {data?.pages.map((page) =>
+      page.data.map(post => <div key={post.id}>{post.title}</div>)
+    )}
+
+    <button
+      onClick={() => fetchNextPage()}
+      disabled={!hasNextPage || isFetchingNextPage}
+    >
+      {isFetchingNextPage
+        ? 'Loading more...'
+        : hasNextPage
+        ? 'Load More'
+        : 'No more posts'}
+    </button>
+
+  </div>
+);
+✅ Each API response is appended to the data.pages[] array.
+
+## Select
+
+select transforms the fetched data as per your convenience.
+It helps you select the required data from the response
+
+> onst { data, isLoading } = useQuery({
+> queryKey: ['users'],
+> queryFn: () => fetch('/api/users').then(res => res.json()),
+> select: (users) => users.filter(u => u.active) // Only show active users!
+> });

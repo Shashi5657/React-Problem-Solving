@@ -21,6 +21,7 @@ const Users = () => {
     queryKey: ["users"],
     queryFn: fetchUsers,
     staleTime: Infinity,
+    select: (data) => data?.users, // used for selecting the required data from response
   });
   const handleAddNewUser = async () => {
     const response = await fetch("http://localhost:8080/users", {
@@ -63,7 +64,7 @@ const Users = () => {
   //dynamic query options - dynamically fetching based on the condition
   const [userId, setUserId] = useState(2);
 
-  const { data: posts, isLoading } = useQuery({
+  const { data: posts } = useQuery({
     queryKey: ["posts", userId],
     queryFn: () =>
       fetch(`https://jsonplaceholder.com/posts?user=${userId}`).then((res) =>
@@ -109,7 +110,7 @@ const Users = () => {
   return (
     <div className="users">
       {data &&
-        data.map((user: UserType) => {
+        data?.map((user: UserType) => {
           return <User key={user._id} {...user} handleDelete={handleDelete} />;
         })}
       <button onClick={() => mutate()}>Add User</button>
