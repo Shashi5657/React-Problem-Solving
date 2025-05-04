@@ -22,6 +22,24 @@ const Users = () => {
     queryFn: fetchUsers,
     staleTime: Infinity,
     select: (data) => data?.users, // used for selecting the required data from response
+    refetchInterval: 5000, // refetch every 5 seconds
+    refetchOnWindowFocus: false, // do not refetch when window is focused
+    placeholderData: (prevData) => prevData, // acts as a placeholder while fetching new data
+  });
+
+  // Single User Query (Uses userID)
+  const { data: singleUser } = useQuery({
+    queryKey: ["singleUser", userID],
+    queryFn: () =>
+      fetch(`http://localhost:3000/users?user=${userID}`).then((res) =>
+        res.json()
+      ),
+    initialData: () => {
+      // Get cached users and find the one that matches
+      const users = queryClient.getQueryData<UserType[]>(["users"]);
+      return users?.find((user) => user._id === userID);
+    },
+    enabled: !!userID, // Only run if userID is truthy
   });
   const handleAddNewUser = async () => {
     const response = await fetch("http://localhost:8080/users", {
