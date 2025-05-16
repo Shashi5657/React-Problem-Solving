@@ -91,6 +91,12 @@ body {
 }
 
 .card .google-btn {
+  display: flex;
   font-weight: 700;
   background-color: #d2d0d0;
+  color: black;
+}
+
+.card .google-btn p {
+  width: 100%;
 }
