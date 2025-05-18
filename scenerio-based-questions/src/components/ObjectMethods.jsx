@@ -30,6 +30,31 @@ const ObjectMethods = () => {
   Object.entries(formValues).forEach(([key, value]) => {
     formData.append(key, value);
   });
+
+  //🔁 Object.fromEntries()
+  //   Converts an array of [key, value] pairs back into an object.
+
+  const arr = [
+    ["a", 1],
+    ["b", 2],
+  ];
+  console.log(Object.fromEntries(arr));
+
+  const user = {
+    name: "John",
+    email: "john@example.com",
+    password: "secret",
+  };
+
+  const safeUser = Object.fromEntries(
+    Object.entries(user).filter(([key]) => key !== "password")
+  );
+  console.log(safeUser);
+
+  const capitalizedValues = Object.fromEntries(
+    Object.entries(user).map(([key, val]) => [key, val.toUpperCase()])
+  );
+  console.log(capitalizedValues);
   return <div>ObjectMethods</div>;
 };
 
