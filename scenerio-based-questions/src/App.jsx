@@ -4,6 +4,7 @@ import AutoSwitchTheme from "./components/AutoSwitchTheme";
 import FileUploadProgress from "./components/FileUploadProgress";
 import RestoreDeletedEmail from "./components/RestoreDeletedEmail";
 import ArrayMethods from "./components/ArrayMethods";
+import ObjectMethods from "./components/ObjectMethods";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <FileUploadProgress />
       <RestoreDeletedEmail />
       <ArrayMethods />
+      <ObjectMethods />
     </>
   );
 }
