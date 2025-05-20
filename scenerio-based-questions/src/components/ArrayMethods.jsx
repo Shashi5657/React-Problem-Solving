@@ -178,11 +178,14 @@ const ArrayMethods = () => {
   console.log(array1.sort((a, b) => b - a)); //[65, 44, 33, 5, 2]
 
   //splice
-
   array1.splice(5, 0, 1);
-  console.log(array1);
-  //toReversed
-  //toSorted
+  //   splice(index, 0 - inserts, 1- replace, 'number that is to be inserted')
+  console.log(array1); // [65, 44, 33, 5, 2, 1]
+  //toReversed - creates a new array of reversed
+  //toSorted - creates a new array of sorted
+
+  array1.unshift(100);
+  console.log(array1); //[100, 65, 44, 33, 5, 2, 1]
 
   return <div>ArrayMethods</div>;
 };
