@@ -122,8 +122,10 @@ const ArrayMethods = () => {
 
   //indexOf
   console.log(array1.indexOf(65)); //4
+
   //lastIndexOf
   console.log(array1.lastIndexOf(65)); //5
+
   //isArray
   console.log(Array.isArray(array1)); //true
   const str = "a,b,c";
@@ -131,15 +133,39 @@ const ArrayMethods = () => {
 
   //join
   console.log(array1.join()); // 2,5,33,44,65,65
+
   //keys
+  const iterator1 = array1.keys();
+  for (const key of iterator1) {
+    console.log(key + 1);
+  }
+
   //length
+  console.log(array1.length); //5
+
   //map
+  array1.map((el) => console.log(el + 1));
+
   //pop
+  array1.pop();
+  console.log(array1); //[2, 5, 33, 44, 65]
+
   //push
+  array1.push(96);
+  console.log(array1); //[2, 5, 33, 44, 65, 96]
+
   //reduce
+  console.log(array1.reduce((sum, num) => sum + num, 0));
+
   //reverse
+  console.log(array1.reverse()); //[96, 65, 44, 33, 5, 2]
+
   //shift
+  array1.shift();
+  console.log(array1); //[65, 44, 33, 5, 2]
+
   //slice
+  console.log(array1.slice(1, 2)); //[44]
   //some
   //sort
   //splice
