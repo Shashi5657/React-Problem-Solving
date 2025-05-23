@@ -81,7 +81,7 @@ const ArrayMethods = () => {
   console.log(uniqueNumbers);
 
   //at
-  const array1 = [2, 5, 33, 44, 65];
+  const array1 = [2, 5, 33, 44, 65, 65];
   const index = 5;
   console.log(array1.at(2)); //33
 
@@ -114,14 +114,23 @@ const ArrayMethods = () => {
   //from
   console.log(Array.from("foo"));
   // Expected output: Array ["f", "o", "o"]
-
   console.log(Array.from([1, 2, 3], (x) => x + x));
   // Expected output: Array [2, 4, 6]
+
   //includes
+  console.log(array1.includes(33));
+
   //indexOf
+  console.log(array1.indexOf(65)); //4
   //lastIndexOf
+  console.log(array1.lastIndexOf(65)); //5
   //isArray
+  console.log(Array.isArray(array1)); //true
+  const str = "a,b,c";
+  console.log(Array(str)); //  ["a,b,c"];
+
   //join
+  console.log(array1.join()); // 2,5,33,44,65,65
   //keys
   //length
   //map
