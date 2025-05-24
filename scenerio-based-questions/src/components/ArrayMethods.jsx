@@ -98,12 +98,25 @@ const ArrayMethods = () => {
   console.log(array1.find((el) => el > 30)); //33
 
   //findIndex
-  console.log(array1.findIndex((el) => el < 30));
-  
+  console.log(array1.findIndex((el) => el < 30)); // 0
+
   //flat
+  const array2 = [1, 2, 3, [4, [5, 6]]];
+  console.log(array2.flat()); // [1, 2, 3, 4, Array(2)]
+  console.log(array2.flat(2)); // [1, 2, 3, 4, 5, 6]
+
   //flatMap
+  console.log(array1.flatMap((num) => (num === 2 ? [2, 2] : 1)));
+
   //foreach
+  array1.forEach((el) => console.log(el));
+
   //from
+  console.log(Array.from("foo"));
+  // Expected output: Array ["f", "o", "o"]
+
+  console.log(Array.from([1, 2, 3], (x) => x + x));
+  // Expected output: Array [2, 4, 6]
   //includes
   //indexOf
   //lastIndexOf
