@@ -81,11 +81,25 @@ const ArrayMethods = () => {
   console.log(uniqueNumbers);
 
   //at
+  const array1 = [2, 5, 33, 44, 65];
+  const index = 5;
+  console.log(array1.at(2)); //33
+
   //concat
+  console.log(array1.concat([10, 12, 11])); //[2,5,33,44,65,10,12,11]
+
   //every
+  console.log(array1.every((el) => el < 100)); // true
+
   //filter
+  console.log(array1.filter((el) => el > 50)); //[65]
+
   //find
+  console.log(array1.find((el) => el > 30)); //33
+
   //findIndex
+  console.log(array1.findIndex((el) => el < 30));
+  
   //flat
   //flatMap
   //foreach
