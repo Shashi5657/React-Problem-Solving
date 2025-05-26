@@ -80,6 +80,36 @@ const ArrayMethods = () => {
 
   console.log(uniqueNumbers);
 
+  //at
+  //concat
+  //every
+  //filter
+  //find
+  //findIndex
+  //flat
+  //flatMap
+  //foreach
+  //from
+  //includes
+  //indexOf
+  //lastIndexOf
+  //isArray
+  //join
+  //keys
+  //length
+  //map
+  //pop
+  //push
+  //reduce
+  //reverse
+  //shift
+  //slice
+  //some
+  //sort
+  //splice
+  //toReversed
+  //toSorted
+
   return <div>ArrayMethods</div>;
 };
 
