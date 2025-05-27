@@ -3,6 +3,7 @@ import UserStayedTimeOnPage from "./components/userStayedTimeOnPage";
 import AutoSwitchTheme from "./components/AutoSwitchTheme";
 import FileUploadProgress from "./components/FileUploadProgress";
 import RestoreDeletedEmail from "./components/RestoreDeletedEmail";
+import ArrayMethods from "./components/ArrayMethods";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <AutoSwitchTheme />
       <FileUploadProgress />
       <RestoreDeletedEmail />
+      <ArrayMethods />
     </>
   );
 }
