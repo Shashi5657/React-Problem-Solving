@@ -50,3 +50,17 @@
   background-color: white;
   color: black;
 }
+
+.outer-container {
+  height: 20px;
+  width: 200px;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.inner-container {
+  height: 20px;
+  background-color: green;
+  border-radius: 5px;
+}
