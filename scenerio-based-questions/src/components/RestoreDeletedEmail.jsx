@@ -22,6 +22,7 @@ const RestoreDeletedEmail = () => {
     const interval = setInterval(() => {
       setCountDown((prev) => {
         if (prev <= 1) {
+          //we can stimulate the api here
           clearInterval(interval);
           setUndoPopup(false);
           setDeletedEmail(null);
