@@ -64,3 +64,11 @@
   background-color: green;
   border-radius: 5px;
 }
+
+.notification {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background-color: beige;
+  color: palevioletred;
+}
