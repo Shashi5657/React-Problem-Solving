@@ -55,6 +55,8 @@ const ObjectMethods = () => {
     Object.entries(user).map(([key, val]) => [key, val.toUpperCase()])
   );
   console.log(capitalizedValues);
+  console.log(Object.keys(user));
+  console.log(Object.values(user));
   return <div>ObjectMethods</div>;
 };
 
