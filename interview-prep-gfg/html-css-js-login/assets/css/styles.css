@@ -1,0 +1,96 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #00809d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.card {
+  padding: 50px 25px;
+  width: 525px;
+  height: auto;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  gap: 20px;
+  border-radius: 20px;
+}
+
+.card h2 {
+  font-weight: 800px;
+  line-height: 1.5px;
+}
+
+.card a {
+  color: #00809d;
+}
+
+.card button {
+  width: 100%;
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: none;
+  transition: all 0.3s;
+}
+
+.card button:hover {
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3);
+}
+
+.card .inputBox {
+  width: 100%;
+  height: 40px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 15px;
+}
+
+.card .inputBox .input {
+  border: none;
+  outline: none;
+  font-weight: 700;
+}
+
+.card .login-btn {
+  background-color: #00809d;
+  font-weight: 700;
+}
+
+.card .account_section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.card .separator {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+  margin: 25px 0;
+}
+
+.card .separator .line {
+  width: 25%;
+  height: 1px;
+  border: 1px solid rgba(0, 0, 0, 0.7);
+}
+
+.card .google-btn {
+  font-weight: 700;
+  background-color: #d2d0d0;
+}
