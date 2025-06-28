@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event Bubbling & Capturing</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        padding: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .outer,
+      .middle,
+      .inner {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+      }
+
+      .outer {
+        height: 300px;
+        width: 300px;
+        border: 5px solid blue;
+        background-color: #e6f0ff;
+      }
+
+      .middle {
+        height: 180px;
+        width: 180px;
+        border: 5px solid red;
+        background-color: #ffe6e6;
+      }
+
+      .inner {
+        height: 75px;
+        width: 75px;
+        border: 5px solid green;
+        background-color: #e6ffe6;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="outer">
+      outer
+      <div class="middle">
+        middle
+        <div class="inner">inner</div>
+      </div>
+    </div>
+
+    <script>
+      const outer = document.querySelector(".outer");
+      const middle = document.querySelector(".middle");
+      const inner = document.querySelector(".inner");
+
+      function logEvent(phase, element) {
+        console.log(`${phase} - ${element} clicked`);
+      }
+
+      function attachListeners(element, name) {
+        // Capturing phase
+        element.addEventListener(
+          "click",
+          (e) => {
+            logEvent("Capturing", name);
+            // Uncomment below to stop propagation during capture
+            // e.stopPropagation();
+          },
+          true // capturing = true
+        );
+
+        // Bubbling phase
+        element.addEventListener("click", (e) => {
+          logEvent("Bubbling", name);
+          // Uncomment below to stop propagation during bubble
+          // e.stopPropagation();
+        });
+      }
+
+      attachListeners(outer, "Outer");
+      attachListeners(middle, "Middle");
+      attachListeners(inner, "Inner");
+    </script>
+  </body>
+</html>
