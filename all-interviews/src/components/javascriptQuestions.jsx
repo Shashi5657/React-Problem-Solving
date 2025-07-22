@@ -51,7 +51,7 @@ async function fetchData() {
 
 // ------------------------------------------------------------------------//
 
-// Diff b/w spread & rest operator
+//4. Diff b/w spread & rest operator
 // 1.spread
 //used for spreading elements from array or objects
 //copy or merge data structures
@@ -66,3 +66,24 @@ function sum(...nums) {
   return nums.reduce((a, b) => a + b);
 }
 sum(1, 2, 3); //6
+// Spread - Expands || Rest - Merges;
+
+// ------------------------------------------------------------------------//
+
+// 5. Debouncing
+// It's a technique used to limit how often a function is called
+// ex:- search input, resize, button clcks, scroll events
+
+function debounce(fn, delay) {
+  let timer;
+  return function (...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      fn.apply(this, args);
+    }, delay);
+  };
+}
+
+const handleInput = debounce((e) => {
+  fetchSuggestions(e.target.value);
+}, 500);
