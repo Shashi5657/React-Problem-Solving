@@ -1,4 +1,4 @@
-import { useForm, Field } from "@tanstack/react-form";
+import { useForm } from "@tanstack/react-form";
 import "./App.css";
 
 type ContactFormValues = {
@@ -7,7 +7,7 @@ type ContactFormValues = {
 };
 
 function App() {
-  const form = useForm({
+  const form = useForm<ContactFormValues>({
     defaultValues: {
       name: "",
       email: "",
@@ -29,7 +29,6 @@ function App() {
       },
     },
     onSubmit: ({ value }) => {
-      // Do something with form data
       console.log("Form submitted:", value);
     },
   });
