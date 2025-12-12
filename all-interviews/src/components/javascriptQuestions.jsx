@@ -35,7 +35,7 @@ async function fetchData() {
   const res = await fetch("www.mockdata.json.com");
   return await res.json();
 }
-
+ 
 // ------------------------------------------------------------------------//
 
 // 3. Features Introduced in ES6
@@ -74,15 +74,15 @@ sum(1, 2, 3); //6
 // It's a technique used to limit how often a function is called
 // ex:- search input, resize, button clcks, scroll events
 
-function debounce(fn, delay) {
-  let timer;
-  return function (...args) {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      fn.apply(this, args);
-    }, delay);
-  };
-}
+  function debounce(fn, delay) {
+    let timer;
+    return function (...args) {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        fn.apply(this, args);
+      }, delay);
+    };
+  }
 
 const handleInput = debounce((e) => {
   fetchSuggestions(e.target.value);
