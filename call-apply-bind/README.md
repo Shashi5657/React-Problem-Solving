@@ -123,7 +123,7 @@ function counter() {
 }
 
 const myCounter = counter();
-myCounter.increment(); // Output: 1
+myCounter.increment(); // Output: 1 
 myCounter.increment(); // Output: 2
 myCounter.decrement(); // Output: 1
 ```
